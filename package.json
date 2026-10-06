@@ -1,0 +1,44 @@
+{
+  "name": "tecnoblue",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "video:preview": "remotion studio src/video/Root.tsx",
+    "video:render": "remotion render src/video/Root.tsx FieldDemo public/video/field-demo.mp4",
+    "higgsfield": "tsx scripts/higgsfield.ts",
+    "seedance": "tsx scripts/seedance.ts"
+  },
+  "dependencies": {
+    "@remotion/player": "^4.0.533",
+    "@tailwindcss/vite": "^4.3.3",
+    "clsx": "^2.1.1",
+    "framer-motion": "^14.0.0",
+    "gsap": "^3.15.0",
+    "lucide-react": "^1.52.0",
+    "ogl": "^1.0.11",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4",
+    "remotion": "^4.0.533",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@higgsfield/client": "^0.2.6",
+    "@remotion/cli": "^4.0.533",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vercel/node": "^21.0.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}

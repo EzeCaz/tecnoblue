@@ -1,0 +1,396 @@
+export type Lang = 'en' | 'es'
+
+export type Solution = {
+  id: string
+  name: string
+  logo: string
+  logoDark?: string
+  url: string
+  /** how large the logo renders in tiles; wordmarks vary a lot in whitespace */
+  logoClass: string
+  tag: Record<Lang, string>
+  summary: Record<Lang, string>
+  detail: Record<Lang, string>
+  bullets: Record<Lang, string[]>
+  proof: Record<Lang, string>
+}
+
+export const solutions: Solution[] = [
+  {
+    id: 'gazpacho',
+    name: 'Gazpacho',
+    logo: '/images/logos/gazpacho.svg',
+    url: 'https://www.gazpachomobile.com/',
+    logoClass: 'h-9',
+    tag: { en: 'Field operations', es: 'Operaciones en campo' },
+    summary: {
+      en: 'One mobile platform for everything your field teams do: store visits, inspections, deliveries, inventory and tasks, with real-time visibility for the office.',
+      es: 'Una plataforma móvil para todo lo que hacen tus equipos de campo: visitas a tiendas, inspecciones, entregas, inventario y tareas, con visibilidad en tiempo real para la oficina.',
+    },
+    detail: {
+      en: 'Gazpacho Mobile builds configurable mobile applications for field employees. Each workflow is designed around how your people actually work, then rolled out to any device, so supervisors see routes, attendance, visit times and results as they happen.',
+      es: 'Gazpacho Mobile crea aplicaciones móviles configurables para el personal de campo. Cada flujo se diseña según cómo trabaja realmente tu gente y se despliega en cualquier dispositivo, de modo que los supervisores ven rutas, asistencia, tiempos de visita y resultados al momento.',
+    },
+    bullets: {
+      en: ['Store visits and in-store execution', 'Inspections, audits and proof of delivery', 'Inventory, task and maintenance management', 'ISO 27001, 27017 and 27701 certified infrastructure'],
+      es: ['Visitas a tiendas y ejecución en punto de venta', 'Inspecciones, auditorías y prueba de entrega', 'Gestión de inventario, tareas y mantenimiento', 'Infraestructura certificada ISO 27001, 27017 y 27701'],
+    },
+    proof: { en: '25+ years, 140+ organisations worldwide', es: 'Más de 25 años y 140 organizaciones en el mundo' },
+  },
+  {
+    id: 'directa',
+    name: 'Directa Group',
+    logo: '/images/logos/directa.svg',
+    logoDark: '/images/logos/directa-dark.svg',
+    url: 'https://www.directagroup.com/',
+    logoClass: 'h-10',
+    tag: { en: 'Contact and operations centres', es: 'Centros de contacto y operaciones' },
+    summary: {
+      en: 'Intelligent contact centres, 24/7 operations monitoring and business process outsourcing, combining AI with experienced people.',
+      es: 'Centros de contacto inteligentes, monitoreo de operaciones 24/7 y outsourcing de procesos de negocio, combinando IA con personas experimentadas.',
+    },
+    detail: {
+      en: 'With more than 26 years of operation, Directa Group runs omnichannel customer service, real-time monitoring of critical assets, RPA and predictive analytics, and Level 2 technical support for companies in telecommunications, energy, healthcare, real estate and automotive.',
+      es: 'Con más de 26 años de operación, Directa Group gestiona atención al cliente omnicanal, monitoreo en tiempo real de activos críticos, RPA y analítica predictiva, y soporte técnico de nivel 2 para empresas de telecomunicaciones, energía, salud, inmobiliario y automotriz.',
+    },
+    bullets: {
+      en: ['Intelligent Contact Centre with CRM integration', 'Intelligent Operations Centre with 99.9% uptime', 'RPA bots and predictive asset analytics', 'Specialised recruitment and BPO'],
+      es: ['Centro de Contacto Inteligente integrado con tu CRM', 'Centro de Operaciones Inteligente con 99,9% de disponibilidad', 'Bots RPA y analítica predictiva de activos', 'Reclutamiento especializado y BPO'],
+    },
+    proof: { en: '26+ years serving the region', es: 'Más de 26 años sirviendo a la región' },
+  },
+  {
+    id: 'callvu',
+    name: 'Callvu',
+    logo: '/images/logos/callvu.svg',
+    url: 'https://callvu.com/',
+    logoClass: 'h-11',
+    tag: { en: 'Customer experience completion', es: 'Finalización de experiencias de cliente' },
+    summary: {
+      en: 'Finishes what conversational AI starts: turns chats and calls into completed, verified and compliant transactions.',
+      es: 'Termina lo que la IA conversacional empieza: convierte chats y llamadas en transacciones completadas, verificadas y conformes.',
+    },
+    detail: {
+      en: 'Callvu adds secure micro-apps and backend workflows to any AI assistant or contact centre, with identity verification, consent capture and regulatory controls built into the flow. It is used by enterprises in finance, insurance, healthcare, telecom and utilities.',
+      es: 'Callvu añade micro-apps seguras y flujos de backend a cualquier asistente de IA o centro de contacto, con verificación de identidad, captura de consentimiento y controles regulatorios integrados en el flujo. Lo usan empresas de finanzas, seguros, salud, telecomunicaciones y servicios públicos.',
+    },
+    bullets: {
+      en: ['Visual micro-apps during a call or chat', 'Identity verification and consent capture', 'Compliance enforced in the workflow (SOC 2, PCI DSS, HIPAA, GDPR)', 'Pre-built CRM and billing integrations'],
+      es: ['Micro-apps visuales durante una llamada o chat', 'Verificación de identidad y captura de consentimiento', 'Cumplimiento aplicado en el flujo (SOC 2, PCI DSS, HIPAA, GDPR)', 'Integraciones listas con CRM y facturación'],
+    },
+    proof: { en: 'Trusted by AT&T, U.S. Bank and DIRECTV', es: 'Confían AT&T, U.S. Bank y DIRECTV' },
+  },
+  {
+    id: 'realo',
+    name: 'ReaLo',
+    logo: '/images/logos/realo.png',
+    logoDark: '/images/logos/realo-dark.png',
+    url: 'https://realo.tech/',
+    logoClass: 'h-8',
+    tag: { en: 'In-store retail digitisation', es: 'Digitalización de la tienda física' },
+    summary: {
+      en: 'Digital shelves and a retail operating system that bring e-commerce capabilities into physical stores.',
+      es: 'Estanterías digitales y un sistema operativo de retail que llevan las capacidades del e-commerce a la tienda física.',
+    },
+    detail: {
+      en: 'ReaLo\'s RetailOS lets retailers and brands plan, manage and monitor in-store activity from any device, while eShelf digital shelves and IoT analytics show what shoppers do in front of the product. It runs in more than 3,000 stores across pharmacy, grocery, fashion, food and automotive.',
+      es: 'RetailOS de ReaLo permite a retailers y marcas planificar, gestionar y monitorear la actividad en tienda desde cualquier dispositivo, mientras las estanterías digitales eShelf y la analítica IoT muestran qué hacen los compradores frente al producto. Opera en más de 3.000 tiendas de farmacia, supermercado, moda, alimentos y automotriz.',
+    },
+    bullets: {
+      en: ['RetailOS planning, management and monitoring', 'eShelf digital shelves', 'Real-time shopper analytics', 'Monetisation and restocking modules'],
+      es: ['Planificación, gestión y monitoreo con RetailOS', 'Estanterías digitales eShelf', 'Analítica de compradores en tiempo real', 'Módulos de monetización y reposición'],
+    },
+    proof: { en: '3,000+ stores, around 5% average sales lift', es: 'Más de 3.000 tiendas y cerca de 5% de aumento promedio en ventas' },
+  },
+  {
+    id: 'betterscreentv',
+    name: 'BetterScreenTV',
+    logo: '/images/logos/betterscreentv.png',
+    url: 'https://www.betterscreentv.com/',
+    logoClass: 'h-12',
+    tag: { en: 'Screen advertising', es: 'Publicidad en pantallas' },
+    summary: {
+      en: 'An AI-powered advertising platform that connects gym screens with connected TV, so a brand reaches the same audience throughout the day.',
+      es: 'Una plataforma de publicidad con IA que conecta las pantallas de gimnasios con la TV conectada, para que una marca llegue a la misma audiencia durante todo el día.',
+    },
+    detail: {
+      en: 'BetterScreenTV sells attention where it is captive: on screens in gyms, then follows the audience home through connected TV. Buying is direct or programmatic through trusted SSP and DSP integrations, pricing adapts with AI, and planning and measurement are unified across both screens.',
+      es: 'BetterScreenTV vende atención donde es cautiva: en las pantallas de los gimnasios, y luego acompaña a la audiencia a casa a través de la TV conectada. La compra es directa o programática mediante integraciones SSP y DSP confiables, los precios se ajustan con IA y la planificación y medición se unifican en ambas pantallas.',
+    },
+    bullets: {
+      en: ['Direct and programmatic buying', 'AI dynamic pricing and contextual optimisation', 'Unified planning and measurement across screens', 'Verified, fraud-free impressions'],
+      es: ['Compra directa y programática', 'Precios dinámicos y optimización contextual con IA', 'Planificación y medición unificadas entre pantallas', 'Impresiones verificadas y sin fraude'],
+    },
+    proof: { en: 'For advertisers and gym owners', es: 'Para anunciantes y dueños de gimnasios' },
+  },
+]
+
+export const clients = [
+  { name: 'Telefónica', logo: '/images/clients/telefonica.png' },
+  { name: 'Fácil Química', logo: '/images/clients/facil.png' },
+  { name: 'Visión Comercial Deportiva', logo: '/images/clients/vision.png' },
+]
+
+export const testimonials = [
+  {
+    quote: {
+      en: 'Gazpacho optimizes time from the point of sale to online management and visualization. We used to work with written reports and check cards. Now we see routes, attendance, visit times, transfers and locations in real time, which makes executing the promotion team\'s plans much easier.',
+      es: 'Gazpacho optimizó los tiempos desde el punto de venta hasta la gestión y visualización online. Antes trabajábamos con reportes escritos y tarjetas de checado. Ahora vemos rutas, asistencia, tiempos de visita, traslados y ubicaciones en tiempo real, lo que facilita la ejecución de los planes del equipo de promotoría.',
+    },
+    author: 'Mariana Camacho',
+    role: { en: 'Trade Marketing', es: 'Trade Marketing' },
+    company: 'Visión Comercial Deportiva',
+    logo: '/images/clients/vision.png',
+  },
+  {
+    quote: {
+      en: 'The Tecno.Blue team has given us a quality service. With Gazpacho we manage point-of-sale information in real time, which lets us monitor and solve problems as they appear. Support has been effective and immediate, responding to every requirement and concern.',
+      es: 'El equipo de Tecno.Blue nos ha brindado un servicio de calidad. Con Gazpacho manejamos la información del punto de venta en tiempo real, lo que nos permite monitorear y resolver problemas a medida que aparecen. El soporte ha sido efectivo e inmediato, respondiendo a cada requerimiento e inquietud.',
+    },
+    author: 'Corina Padilla',
+    role: { en: 'Business Intelligence', es: 'Inteligencia Comercial' },
+    company: 'Fácil Química',
+    logo: '/images/clients/facil.png',
+  },
+  {
+    quote: {
+      en: 'Tecno.Blue is a strategic partner with real human and professional quality, strong commitment and deep knowledge of digital applications. Thanks to their experience we automated our commercial surveys and product audits with distributors and points of sale, simplifying field management with indicators and business analysis.',
+      es: 'Tecno.Blue es un socio estratégico con calidad humana y profesional, alto compromiso y conocimiento en aplicaciones digitales. Gracias a su experiencia automatizamos nuestras encuestas comerciales y auditorías de producto con distribuidores y puntos de venta, simplificando la gestión en campo con indicadores y análisis del negocio.',
+    },
+    author: 'Edison Arias Jara',
+    role: { en: 'Telefónica Ecuador', es: 'Telefónica Ecuador' },
+    company: 'Telefónica',
+    logo: '/images/clients/telefonica.png',
+  },
+]
+
+export const copy = {
+  en: {
+    nav: { home: 'Home', about: 'About', solutions: 'Solutions', contact: 'Contact', cta: 'Contact us', menu: 'Menu', close: 'Close menu', skip: 'Skip to content' },
+    hero: {
+      title: 'We add value to your business.',
+      lead: 'Five specialised technologies for field operations, customer contact, retail and media. One partner who implements and supports them.',
+      primary: 'Contact us',
+      secondary: 'Explore the solutions',
+      stageLabel: 'The five solutions Tecno.Blue implements',
+      badge: 'Now implementing BetterScreenTV across the Americas',
+      titleLead: 'We add value to',
+      rotating: ['your business.', 'your field teams.', 'your contact centre.', 'your stores.', 'your campaigns.'],
+      demoLabel: 'Product demo: a day in the field with Tecno.Blue platforms',
+      chip1Label: 'Visits today',
+      chip2Label: 'Support',
+      chip2Value: 'Answered in English and Spanish',
+    },
+    proof: { title: 'Trusted by teams across the Americas' },
+    solutions: {
+      title: 'Five technologies. One partner.',
+      lead: 'We select platforms with proven results, implement them in your operation and stay for the support.',
+      learn: 'Learn more',
+      visit: 'Visit website',
+      all: 'See all solutions',
+    },
+    why: {
+      title: 'Why companies work with Tecno.Blue',
+      lead: 'Not a catalogue of software. A partner that picks the right platform, implements it in your operation and answers when you call.',
+      prompts: ['We need to see our field reps in real time.', 'Our call centre misses half of its callbacks.', 'Which products move at the shelf, and when?', 'Can one campaign reach gyms and living rooms?'],
+      stat1: 'average sales lift with ReaLo in store',
+      stat2: 'stores already running ReaLo',
+      promiseLabel: 'Our promise',
+      promise: 'Implementation included. Support that stays.',
+      promiseNote: 'One team for five platforms, in English and Spanish.',
+      items: [
+        { title: 'Innovation you can use', body: 'Technologies that are new to the market, made to work in your context from day one.' },
+        { title: 'Better customer experience', body: 'Reach customers at the right moment, on the channel they prefer, with less friction.' },
+        { title: 'Productive, competitive teams', body: 'Field and contact-centre teams work with live information instead of paper and guesswork.' },
+        { title: 'Measurable sales growth', body: 'More contacts, more completed visits, more conversations that end in a sale.' },
+      ],
+    },
+    fit: {
+      title: 'Find your fit in thirty seconds',
+      lead: 'Pick the situations that sound like your operation. The platforms reorder to match, and the best one opens.',
+      pickLabel: 'What describes you?',
+      empty: 'Select one or more situations to see which platform fits.',
+      noMatch: 'No direct match yet. Add another situation, or talk to us and we will map it together.',
+      result: 'Best match: {name}. We implement it and stay for the support.',
+      matches: 'matching situations',
+      needs: [
+        { id: 'field', label: 'We have people visiting stores or clients', matches: ['gazpacho', 'realo'] },
+        { id: 'visibility', label: 'We lack real-time visibility of the field', matches: ['gazpacho', 'directa'] },
+        { id: 'calls', label: 'Our contact centre is overloaded', matches: ['directa', 'callvu'] },
+        { id: 'ai', label: 'Our chatbot starts but cannot finish tasks', matches: ['callvu'] },
+        { id: 'compliance', label: 'We work in a regulated industry', matches: ['callvu', 'directa'] },
+        { id: 'shelf', label: 'We want to know what happens at the shelf', matches: ['realo', 'gazpacho'] },
+        { id: 'monitor', label: 'We monitor critical assets 24/7', matches: ['directa'] },
+        { id: 'ads', label: 'We advertise and want new, measurable screens', matches: ['betterscreentv'] },
+        { id: 'gym', label: 'We run gyms or venues with screens', matches: ['betterscreentv'] },
+      ],
+    },
+    band: ['Field operations', 'Contact centres', 'CX completion', 'In-store retail', 'Screen advertising'],
+    testimonials: { title: 'What our clients say', prev: 'Previous testimonial', next: 'Next testimonial', goTo: 'Show testimonial' },
+    cta: { title: 'Ready to add value to your business?', body: 'Tell us about your challenge and a representative will get back to you.', button: 'Contact us' },
+    about: {
+      kicker: 'About Tecno.Blue',
+      title: 'Innovation, versatility and commitment.',
+      lead: 'We help companies face and solve their business challenges with digital services and latest-generation technologies.',
+      p1: 'Tecno.Blue was born with a single objective: to help clients face and solve their business challenges through digital services and cutting-edge technologies, so they reach their goals successfully.',
+      p2: 'We are committed to innovation and continuous improvement in how we deliver, provide and manage our services. That commitment is why companies choose us as their strategic partner.',
+      valuesTitle: 'How we work',
+      values: [
+        { title: 'Innovation', body: 'We bring technologies that are new to the market and make them work in your context.' },
+        { title: 'Versatility', body: 'From field sales to contact centres and retail floors, we adapt the solution to the operation.' },
+        { title: 'Commitment', body: 'Implementation is the beginning. Support is immediate and stays with you.' },
+      ],
+      partnersTitle: 'Our technology partners',
+      locationTitle: 'Where we are',
+      location: '250 NW 136th Ave, Suite 113, Pembroke Pines, FL 33028, United States',
+      locationBody: 'Based in South Florida, serving clients across the United States and Latin America.',
+    },
+    solutionsPage: {
+      kicker: 'Solutions',
+      title: 'Latest-generation technologies that generate value for your business model.',
+      lead: 'Each platform below is one we implement and support directly. Read what it does, visit the partner, or talk to us about which one fits your challenge.',
+      whatItDoes: 'What it does',
+      highlights: 'Highlights',
+    },
+    contact: {
+      kicker: 'Contact',
+      title: 'Tell us about your challenge.',
+      lead: 'Send us your details and one of our representatives will contact you.',
+      name: 'Name and surname',
+      email: 'Email',
+      phone: 'Contact phone',
+      country: 'Country',
+      countryPlaceholder: 'Select a country',
+      source: 'How did you hear about Tecno.Blue?',
+      sourceOptions: ['Referred by a client', 'Referred by an internal contact', 'Social networks', 'Web search'],
+      message: 'Comment',
+      messagePlaceholder: 'What would you like to solve?',
+      send: 'Send message',
+      sending: 'Sending',
+      successTitle: 'Message sent',
+      successBody: 'Thank you. A representative will contact you shortly.',
+      errorBody: 'The message could not be sent. Please try again or email us directly.',
+      required: 'This field is required',
+      invalidEmail: 'Enter a valid email address',
+      office: 'Office',
+      another: 'Send another message',
+      optional: 'Optional',
+    },
+    footer: { rights: 'All rights reserved.', address: '250 NW 136th Ave, Suite 113, Pembroke Pines, FL 33028', language: 'Language', partners: 'Solutions', company: 'Company' },
+  },
+  es: {
+    nav: { home: 'Inicio', about: 'Nosotros', solutions: 'Soluciones', contact: 'Contacto', cta: 'Contáctanos', menu: 'Menú', close: 'Cerrar menú', skip: 'Saltar al contenido' },
+    hero: {
+      title: 'Sumamos valor para tu negocio.',
+      lead: 'Cinco tecnologías especializadas para operaciones en campo, contacto con clientes, retail y medios. Un solo socio que las implementa y les da soporte.',
+      primary: 'Contáctanos',
+      secondary: 'Explorar las soluciones',
+      stageLabel: 'Las cinco soluciones que implementa Tecno.Blue',
+      badge: 'Ahora implementando BetterScreenTV en toda América',
+      titleLead: 'Sumamos valor a',
+      rotating: ['tu negocio.', 'tus equipos de campo.', 'tu centro de contacto.', 'tus tiendas.', 'tus campañas.'],
+      demoLabel: 'Demo de producto: un día en campo con las plataformas de Tecno.Blue',
+      chip1Label: 'Visitas hoy',
+      chip2Label: 'Soporte',
+      chip2Value: 'Atendido en español e inglés',
+    },
+    proof: { title: 'Confían en nosotros equipos en toda América' },
+    solutions: {
+      title: 'Cinco tecnologías. Un solo socio.',
+      lead: 'Seleccionamos plataformas con resultados comprobados, las implementamos en tu operación y nos quedamos para el soporte.',
+      learn: 'Conocer más',
+      visit: 'Visitar sitio web',
+      all: 'Ver todas las soluciones',
+    },
+    why: {
+      title: 'Por qué las empresas trabajan con Tecno.Blue',
+      lead: 'No es un catálogo de software. Es un socio que elige la plataforma correcta, la implementa en tu operación y responde cuando llamas.',
+      prompts: ['Necesitamos ver a nuestros vendedores de campo en tiempo real.', 'Nuestro call center pierde la mitad de las devoluciones de llamada.', '¿Qué productos se mueven en el anaquel y cuándo?', '¿Una sola campaña puede llegar a gimnasios y salas de casa?'],
+      stat1: 'de aumento promedio en ventas con ReaLo en tienda',
+      stat2: 'tiendas ya operan con ReaLo',
+      promiseLabel: 'Nuestra promesa',
+      promise: 'Implementación incluida. Soporte que se queda.',
+      promiseNote: 'Un solo equipo para cinco plataformas, en español e inglés.',
+      items: [
+        { title: 'Innovación que puedes usar', body: 'Tecnologías nuevas en el mercado, hechas para funcionar en tu contexto desde el primer día.' },
+        { title: 'Mejor experiencia del cliente', body: 'Llega a tus clientes en el momento correcto, por el canal que prefieren, con menos fricción.' },
+        { title: 'Equipos productivos y competitivos', body: 'Los equipos de campo y de contact center trabajan con información en vivo, no con papel ni suposiciones.' },
+        { title: 'Crecimiento medible en ventas', body: 'Más contactos, más visitas completadas y más conversaciones que terminan en venta.' },
+      ],
+    },
+    fit: {
+      title: 'Encuentra tu solución en treinta segundos',
+      lead: 'Elige las situaciones que suenan a tu operación. Las plataformas se reordenan y la mejor se abre.',
+      pickLabel: '¿Qué te describe?',
+      empty: 'Selecciona una o más situaciones para ver qué plataforma encaja.',
+      noMatch: 'Aún no hay una coincidencia directa. Agrega otra situación o cuéntanos y lo mapeamos juntos.',
+      result: 'Mejor opción: {name}. La implementamos y nos quedamos para el soporte.',
+      matches: 'situaciones coincidentes',
+      needs: [
+        { id: 'field', label: 'Tenemos personas visitando tiendas o clientes', matches: ['gazpacho', 'realo'] },
+        { id: 'visibility', label: 'Nos falta visibilidad del campo en tiempo real', matches: ['gazpacho', 'directa'] },
+        { id: 'calls', label: 'Nuestro centro de contacto está saturado', matches: ['directa', 'callvu'] },
+        { id: 'ai', label: 'Nuestro chatbot empieza pero no termina las tareas', matches: ['callvu'] },
+        { id: 'compliance', label: 'Trabajamos en una industria regulada', matches: ['callvu', 'directa'] },
+        { id: 'shelf', label: 'Queremos saber qué pasa en el anaquel', matches: ['realo', 'gazpacho'] },
+        { id: 'monitor', label: 'Monitoreamos activos críticos 24/7', matches: ['directa'] },
+        { id: 'ads', label: 'Anunciamos y queremos pantallas nuevas y medibles', matches: ['betterscreentv'] },
+        { id: 'gym', label: 'Operamos gimnasios o espacios con pantallas', matches: ['betterscreentv'] },
+      ],
+    },
+    band: ['Operaciones en campo', 'Centros de contacto', 'Finalización de CX', 'Retail en tienda', 'Publicidad en pantallas'],
+    testimonials: { title: 'Lo que dicen nuestros clientes', prev: 'Testimonio anterior', next: 'Siguiente testimonio', goTo: 'Mostrar testimonio' },
+    cta: { title: '¿Listo para sumar valor a tu negocio?', body: 'Cuéntanos tu reto y un representante se pondrá en contacto contigo.', button: 'Contáctanos' },
+    about: {
+      kicker: 'Sobre Tecno.Blue',
+      title: 'Innovación, versatilidad y compromiso.',
+      lead: 'Ayudamos a las empresas a enfrentar y resolver sus retos de negocio con servicios digitales y tecnologías de última generación.',
+      p1: 'Tecno.Blue nace con un único objetivo: ayudar a sus clientes a enfrentar y resolver sus retos y necesidades de negocio a través de servicios digitales y tecnologías de última generación, para que alcancen con éxito sus objetivos.',
+      p2: 'Estamos comprometidos con la innovación y la mejora continua en la entrega, prestación y gestión del servicio. Por eso las empresas nos eligen como su socio estratégico.',
+      valuesTitle: 'Cómo trabajamos',
+      values: [
+        { title: 'Innovación', body: 'Traemos tecnologías nuevas en el mercado y las hacemos funcionar en tu contexto.' },
+        { title: 'Versatilidad', body: 'Desde ventas en campo hasta centros de contacto y pisos de venta, adaptamos la solución a la operación.' },
+        { title: 'Compromiso', body: 'La implementación es el comienzo. El soporte es inmediato y te acompaña.' },
+      ],
+      partnersTitle: 'Nuestros socios tecnológicos',
+      locationTitle: 'Dónde estamos',
+      location: '250 NW 136th Ave, Suite 113, Pembroke Pines, FL 33028, Estados Unidos',
+      locationBody: 'Con sede en el sur de Florida, atendemos clientes en Estados Unidos y América Latina.',
+    },
+    solutionsPage: {
+      kicker: 'Soluciones',
+      title: 'Tecnologías de última generación que generan valor al modelo de tu negocio.',
+      lead: 'Cada plataforma que ves aquí la implementamos y soportamos directamente. Lee qué hace, visita al socio o cuéntanos cuál se ajusta a tu reto.',
+      whatItDoes: 'Qué hace',
+      highlights: 'Destacados',
+    },
+    contact: {
+      kicker: 'Contacto',
+      title: 'Cuéntanos tu reto.',
+      lead: 'Envíanos tus datos y uno de nuestros representantes se comunicará contigo.',
+      name: 'Nombre y apellido',
+      email: 'Correo electrónico',
+      phone: 'Teléfono de contacto',
+      country: 'País',
+      countryPlaceholder: 'Selecciona un país',
+      source: '¿Cómo te enteraste de Tecno.Blue?',
+      sourceOptions: ['Referido por un cliente', 'Referido por un contacto interno', 'Redes sociales', 'Búsqueda web'],
+      message: 'Comentario',
+      messagePlaceholder: '¿Qué te gustaría resolver?',
+      send: 'Enviar mensaje',
+      sending: 'Enviando',
+      successTitle: 'Mensaje enviado',
+      successBody: 'Gracias. Un representante se comunicará contigo en breve.',
+      errorBody: 'No se pudo enviar el mensaje. Inténtalo de nuevo o escríbenos directamente.',
+      required: 'Este campo es obligatorio',
+      invalidEmail: 'Ingresa un correo electrónico válido',
+      office: 'Oficina',
+      another: 'Enviar otro mensaje',
+      optional: 'Opcional',
+    },
+    footer: { rights: 'Todos los derechos reservados.', address: '250 NW 136th Ave, Suite 113, Pembroke Pines, FL 33028', language: 'Idioma', partners: 'Soluciones', company: 'Empresa' },
+  },
+} as const
+
+export type Copy = (typeof copy)['en']
