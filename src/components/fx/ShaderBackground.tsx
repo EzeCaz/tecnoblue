@@ -99,7 +99,7 @@ export function ShaderBackground({ className }: { className?: string }) {
     let raf = 0
     let visible = true
     let start = performance.now()
-    const io = new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible && !reduce) loop() }, { threshold: 0.01 })
+    const io = new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible && !reduce && !window.matchMedia('(max-width: 767px)').matches) loop() }, { threshold: 0.01 })
     io.observe(host)
 
     const frame = (now: number) => {
@@ -116,7 +116,8 @@ export function ShaderBackground({ className }: { className?: string }) {
       const tick = (now: number) => { if (!visible) return; frame(now); raf = requestAnimationFrame(tick) }
       raf = requestAnimationFrame(tick)
     }
-    if (reduce) { start = performance.now() - 20000; frame(performance.now()) } else loop()
+    const small = window.matchMedia('(max-width: 767px)').matches
+    if (reduce || small) { start = performance.now() - 20000; frame(performance.now()) } else loop()
 
     return () => {
       cancelAnimationFrame(raf)

@@ -11,10 +11,10 @@ type Errors = Partial<Record<'name' | 'email' | 'message', string>>
 
 const ENDPOINT = (import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined) || (import.meta.env.PROD ? '/api/contact' : undefined)
 
-const field = 'mt-2 block h-13 w-full rounded-2xl border border-line bg-ground px-4 text-[16px] text-navy placeholder:text-muted transition-[border-color,box-shadow,background-color] duration-200 focus:border-blue focus:bg-white focus:shadow-[0_0_0_4px_rgb(9_119_188/0.18)] focus:outline-none'
-const label = 'text-[13px] font-bold text-navy'
+const field = 'mt-2 block h-13 w-full rounded-2xl border border-line bg-ground px-4 text-[16px] text-fg placeholder:text-fg-3 transition-[border-color,box-shadow,background-color] duration-200 focus:border-blue focus:bg-surface focus:shadow-[0_0_0_4px_rgb(9_119_188/0.18)] focus:outline-none'
+const label = 'text-[13px] font-bold text-fg'
 
-export function Contact() {
+export function Contact({ subject }: { subject?: string } = {}) {
   const { lang, t } = useLang()
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Errors>({})
@@ -41,7 +41,7 @@ export function Contact() {
     setStatus('sending')
     try {
       if (ENDPOINT) {
-        const res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ ...data, lang }) })
+        const res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ ...data, lang, subject }) })
         if (!res.ok) throw new Error(String(res.status))
       } else {
         await new Promise((r) => setTimeout(r, 700))
@@ -58,16 +58,16 @@ export function Contact() {
 
   return (
     <>
-      <PageHero kicker={t.contact.kicker} title={t.contact.title} lead={t.contact.lead} />
+      {!subject && <PageHero kicker={t.contact.kicker} title={t.contact.title} lead={t.contact.lead} />}
 
       <section className="bg-ground">
         <div className="wrap grid gap-10 py-20 sm:py-24 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
-          <div className="rounded-[32px] bg-white p-6 shadow-soft ring-1 ring-line sm:p-12">
+          <div className="rounded-[32px] bg-surface p-6 shadow-soft ring-1 ring-line sm:p-12">
             {status === 'sent' ? (
               <div role="status" className="flex flex-col items-center py-10 text-center">
                 <CheckCircle2 aria-hidden="true" className="h-14 w-14 text-blue" strokeWidth={1.25} />
-                <h2 className="title-sm mt-5 text-navy">{t.contact.successTitle}</h2>
-                <p className="mt-2 text-[17px] text-slate">{t.contact.successBody}</p>
+                <h2 className="title-sm mt-5 text-fg">{t.contact.successTitle}</h2>
+                <p className="mt-2 text-[17px] text-fg-2">{t.contact.successBody}</p>
                 <Button variant="secondary" className="mt-8" onClick={() => setStatus('idle')}>{t.contact.another}</Button>
               </div>
             ) : (
@@ -79,12 +79,20 @@ export function Contact() {
                   {err('name')}
                 </div>
                 <div>
+                  <label htmlFor="company" className={label}>{t.contact.company}</label>
+                  <input id="company" name="company" autoComplete="organization" className={field} />
+                </div>
+                <div>
+                  <label htmlFor="role" className={label}>{t.contact.role} <span className="font-medium text-fg-3">· {t.contact.optional}</span></label>
+                  <input id="role" name="role" autoComplete="organization-title" className={field} />
+                </div>
+                <div>
                   <label htmlFor="email" className={label}>{t.contact.email}</label>
                   <input id="email" name="email" type="email" autoComplete="email" required aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} className={cn(field, errors.email && 'border-[#d70015]')} />
                   {err('email')}
                 </div>
                 <div>
-                  <label htmlFor="phone" className={label}>{t.contact.phone} <span className="font-medium text-muted">· {t.contact.optional}</span></label>
+                  <label htmlFor="phone" className={label}>{t.contact.phone} <span className="font-medium text-fg-3">· {t.contact.optional}</span></label>
                   <input id="phone" name="phone" type="tel" autoComplete="tel" className={field} />
                 </div>
                 <div>
@@ -119,8 +127,8 @@ export function Contact() {
           </div>
 
           <aside>
-            <h2 className="title-sm text-navy">{t.contact.office}</h2>
-            <address className="mt-3 text-[16px] not-italic leading-relaxed text-slate">
+            <h2 className="title-sm text-fg">{t.contact.office}</h2>
+            <address className="mt-3 text-[16px] not-italic leading-relaxed text-fg-2">
               250 NW 136th Ave, Suite 113<br />Pembroke Pines, FL 33028<br />United States
             </address>
             <div className="mt-6 overflow-hidden rounded-[24px] shadow-soft ring-1 ring-line">

@@ -11,8 +11,8 @@ type Size = 'sm' | 'md' | 'lg'
 const base = 'relative inline-flex items-center justify-center gap-3 rounded-full font-bold select-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 will-change-transform'
 const variants: Record<Variant, string> = {
   primary: 'bg-blue text-white shadow-glow hover:bg-blue-deep',
-  secondary: 'bg-white text-navy ring-1 ring-inset ring-line hover:ring-blue/50 shadow-soft',
-  inverse: 'bg-white text-navy hover:bg-ground',
+  secondary: 'bg-surface text-fg ring-1 ring-inset ring-line hover:ring-blue/50 shadow-soft',
+  inverse: 'bg-surface text-fg hover:bg-ground',
   ghost: 'bg-white/10 text-white ring-1 ring-inset ring-white/20 hover:bg-white/15',
 }
 const sizes: Record<Size, string> = { sm: 'h-10 px-4 text-[14px]', md: 'h-12 px-6 text-[15px]', lg: 'h-14 pl-7 pr-2 text-[16px]' }
@@ -22,7 +22,7 @@ type Common = { variant?: Variant; size?: Size; className?: string; icon?: boole
 /** Trailing icon nested in its own circle (button-in-button). */
 function Trail({ dark }: { dark?: boolean }) {
   return (
-    <span className={cn('flex h-10 w-10 items-center justify-center rounded-full transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-px', dark ? 'bg-navy/10' : 'bg-white/20')}>
+    <span className={cn('flex h-10 w-10 items-center justify-center rounded-full transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-px', dark ? 'bg-fg/10' : 'bg-white/20')}>
       <ArrowUpRight className="h-4 w-4" strokeWidth={2.25} />
     </span>
   )

@@ -62,7 +62,7 @@ export function DragRail({ children, count, gap = 20 }: { children: ReactNode; c
       </div>
       <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Solutions">
         {Array.from({ length: count }).map((_, i) => (
-          <button key={i} type="button" role="tab" aria-selected={i === index} aria-label={`${i + 1} / ${count}`} onClick={() => goTo(i)} className={`h-2.5 cursor-pointer rounded-full transition-[width,background-color] duration-300 ${i === index ? 'w-7 bg-navy' : 'w-2.5 bg-navy/25'}`} />
+          <button key={i} type="button" role="tab" aria-selected={i === index} aria-label={`${i + 1} / ${count}`} onClick={() => goTo(i)} className={`h-2.5 cursor-pointer rounded-full transition-[width,background-color] duration-300 ${i === index ? 'w-7 bg-navy' : 'w-2.5 bg-fg/25'}`} />
         ))}
       </div>
     </div>

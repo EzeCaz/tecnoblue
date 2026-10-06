@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useLang } from '@/i18n/LanguageContext'
 import { ShaderBackground } from '@/components/fx/ShaderBackground'
 import { Suspense, lazy } from 'react'
@@ -16,6 +16,9 @@ const HERO_VIDEO = (import.meta.env.VITE_HERO_VIDEO as string | undefined) || ''
 export function Hero() {
   const { t } = useLang()
   const reduce = useReducedMotion()
+  const { scrollY } = useScroll()
+  const copyY = useTransform(scrollY, [0, 600], [0, reduce ? 0 : 120])
+  const copyOpacity = useTransform(scrollY, [0, 500], [1, reduce ? 1 : 0.15])
   const item = (delay: number) => reduce ? {} : ({
     initial: { opacity: 0, y: 24, filter: 'blur(6px)' },
     animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
@@ -25,10 +28,10 @@ export function Hero() {
     <section className="relative overflow-hidden bg-ink text-white">
       <ShaderBackground />
       {HERO_VIDEO && <VideoBackground src={HERO_VIDEO} opacity={0.5} />}
-      <ParticleField />
+      <div className="absolute inset-0 hidden md:block"><ParticleField /></div>
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-ground" />
       <div className="wrap relative pb-24 pt-36 sm:pt-44">
-        <div className="mx-auto max-w-[880px] text-center">
+        <motion.div style={{ y: copyY, opacity: copyOpacity }} className="mx-auto max-w-[880px] text-center">
           <motion.div {...item(0)} className="glass-dark inline-flex items-center gap-2 rounded-full py-1.5 pl-2 pr-4 text-[13px] font-semibold text-white/85">
             <span className="relative flex h-5 w-5 items-center justify-center"><span className="absolute inset-0 rounded-full bg-sky animate-breathe motion-reduce:hidden" /><span className="relative h-2 w-2 rounded-full bg-sky" /></span>
             {t.hero.badge}
@@ -42,7 +45,7 @@ export function Hero() {
             <Magnetic><ButtonLink to="/contact" size="lg" icon>{t.hero.primary}</ButtonLink></Magnetic>
             <ButtonLink to="/solutions" size="lg" variant="ghost">{t.hero.secondary}</ButtonLink>
           </motion.div>
-        </div>
+        </motion.div>
 
         <motion.div {...item(0.4)} className="relative mx-auto mt-16 max-w-[1080px]">
           <ContainerScroll>

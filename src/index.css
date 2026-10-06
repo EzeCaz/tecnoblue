@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme {
+  --color-surface: var(--surface);
+  --color-ground: var(--ground);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-line: var(--line);
   --color-ink: #070d1a;
   --color-ink-2: #0d1830;
   --color-navy: #0b1f3a;
@@ -8,8 +16,6 @@
   --color-blue-deep: #0a6aa8;
   --color-sky: #44b4e6;
   --color-sky-soft: #dbeeff;
-  --color-ground: #f3f6fb;
-  --color-line: #dfe6ef;
   --color-slate: #4a5a75;
   --color-muted: #7b879a;
   --color-green: #1a9b5a;
@@ -18,7 +24,7 @@
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
   --shadow-float: 0 1px 2px rgb(11 31 58 / 0.05), 0 30px 70px -30px rgb(11 31 58 / 0.35);
-  --shadow-soft: 0 1px 2px rgb(11 31 58 / 0.04), 0 16px 40px -24px rgb(11 31 58 / 0.25);
+  --shadow-soft: var(--shadow-soft);
   --shadow-glow: 0 0 0 1px rgb(255 255 255 / 0.08), 0 24px 60px -20px rgb(9 119 188 / 0.9);
 
   --animate-marquee: marquee var(--marquee-duration, 36s) linear infinite;
@@ -31,8 +37,16 @@
 }
 
 @layer base {
+  :root {
+    --surface: #ffffff; --ground: #f3f6fb; --fg: #0b1f3a; --fg-2: #4a5a75; --fg-3: #7b879a; --line: #dfe6ef;
+    --shadow-soft: var(--shadow-soft);
+  }
+  :root[data-theme="dark"] {
+    --surface: #0f1a30; --ground: #0a1427; --fg: #eef3fa; --fg-2: #b7c2d3; --fg-3: #8a97ab; --line: rgb(255 255 255 / 0.1);
+    --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px -24px rgb(0 0 0 / 0.6);
+  }
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-  body { @apply bg-ground text-navy font-sans antialiased; font-size: 17px; line-height: 1.5; font-optical-sizing: auto; }
+  body { @apply bg-ground text-fg font-sans antialiased; transition: background-color 0.4s ease, color 0.4s ease; font-size: 17px; line-height: 1.5; font-optical-sizing: auto; }
   h1, h2, h3 { text-wrap: balance; }
   p { text-wrap: pretty; }
   :focus-visible { outline: none; box-shadow: 0 0 0 4px rgb(68 180 230 / 0.55); border-radius: 10px; }
@@ -50,11 +64,13 @@
 
 @layer utilities {
   .wrap { @apply mx-auto w-full max-w-[1280px] px-5 sm:px-10; }
+  .wrap-text { @apply mx-auto w-full max-w-[860px] px-5 sm:px-10; }
   .display { @apply text-[42px] font-extrabold leading-[1.02] tracking-[-0.035em] sm:text-[64px] lg:text-[76px]; }
   .title { @apply text-[32px] font-extrabold leading-[1.08] tracking-[-0.025em] sm:text-[44px] lg:text-[52px]; }
   .title-sm { @apply text-[24px] font-bold leading-[1.15] tracking-[-0.015em] sm:text-[28px]; }
-  .lead { @apply text-[18px] leading-[1.55] text-slate sm:text-[20px]; }
+  .lead { @apply text-[18px] leading-[1.55] text-fg-2 sm:text-[20px]; }
   .glass { background: rgb(255 255 255 / 0.66); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-top: 1px solid rgb(255 255 255 / 0.6); }
+  :root[data-theme="dark"] .glass { background: rgb(15 26 48 / 0.7); border-top-color: rgb(255 255 255 / 0.12); }
   .glass-dark { background: rgb(13 24 48 / 0.55); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.12); }
   .pause-on-hover:hover .animate-marquee, .pause-on-hover:focus-within .animate-marquee { animation-play-state: paused; }
   .mask-fade-x { mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent); }

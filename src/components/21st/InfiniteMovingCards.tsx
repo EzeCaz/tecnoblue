@@ -10,11 +10,11 @@ export type MovingCard = { quote: string; name: string; title: string; logo?: st
 export function InfiniteMovingCards({ items, direction = 'left', speed = 'normal', pauseOnHover = true, className }: { items: MovingCard[]; direction?: 'left' | 'right'; speed?: 'fast' | 'normal' | 'slow'; pauseOnHover?: boolean; className?: string }) {
   const duration = speed === 'fast' ? '28s' : speed === 'normal' ? '48s' : '80s'
   const Card = ({ it, hidden }: { it: MovingCard; hidden?: boolean }) => (
-    <li aria-hidden={hidden} className="relative w-[340px] max-w-full shrink-0 rounded-[24px] bg-white p-7 shadow-soft ring-1 ring-line md:w-[420px]">
+    <li aria-hidden={hidden} className="relative w-[340px] max-w-full shrink-0 rounded-[24px] bg-surface p-7 shadow-soft ring-1 ring-line md:w-[420px]">
       <blockquote>
-        {it.logo && <img src={it.logo} alt={hidden ? '' : it.name} className="h-8 w-auto max-w-[130px] object-contain" />}
-        <p className="mt-5 text-[15px] leading-relaxed text-navy">“{it.quote}”</p>
-        <footer className="mt-5 text-[13px] text-muted"><span className="font-bold text-navy">{it.name}</span>, {it.title}</footer>
+        {it.logo && <img src={it.logo} alt={hidden ? '' : it.name} className="h-8 w-auto max-w-[130px] rounded-md object-contain dark:bg-white dark:px-2 dark:py-1" />}
+        <p className="mt-5 text-[15px] leading-relaxed text-fg">“{it.quote}”</p>
+        <footer className="mt-5 text-[13px] text-fg-3"><span className="font-bold text-fg">{it.name}</span>, {it.title}</footer>
       </blockquote>
     </li>
   )

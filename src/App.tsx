@@ -6,11 +6,15 @@ import { Intro } from '@/components/fx/Intro'
 import { ScrollProgress } from '@/components/fx/ScrollProgress'
 import { Home } from '@/pages/Home'
 import { useLang } from '@/i18n/LanguageContext'
+import { solutions } from '@/i18n/content'
+import { WhatsAppButton } from '@/components/fx/WhatsAppButton'
 
 const About = lazy(() => import('@/pages/About').then((m) => ({ default: m.About })))
 const Solutions = lazy(() => import('@/pages/Solutions').then((m) => ({ default: m.Solutions })))
 const Contact = lazy(() => import('@/pages/Contact').then((m) => ({ default: m.Contact })))
 const NotFound = lazy(() => import('@/pages/NotFound').then((m) => ({ default: m.NotFound })))
+const SolutionDetail = lazy(() => import('@/pages/SolutionDetail').then((m) => ({ default: m.SolutionDetail })))
+const Legal = lazy(() => import('@/pages/Legal').then((m) => ({ default: m.Legal })))
 
 const meta = {
   en: {
@@ -33,7 +37,8 @@ function ScrollAndMeta() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     const map = meta[lang] as Record<string, readonly [string, string]>
-    const [title, description] = map[pathname] ?? map['/']
+    const sol = solutions.find((s) => pathname === `/solutions/${s.id}`)
+    const [title, description] = sol ? [`${sol.name} — Tecno.Blue`, sol.summary[lang]] : pathname === '/privacy' || pathname === '/terms' ? [`${pathname === '/privacy' ? (lang === 'es' ? 'Privacidad' : 'Privacy') : (lang === 'es' ? 'Términos' : 'Terms')} — Tecno.Blue`, map['/'][1]] : (map[pathname] ?? map['/'])
     document.title = title
     document.querySelector('meta[name="description"]')?.setAttribute('content', description)
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', title)
@@ -62,12 +67,16 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/solutions" element={<Solutions />} />
+            <Route path="/solutions/:id" element={<SolutionDetail />} />
+            <Route path="/privacy" element={<Legal kind="privacy" />} />
+            <Route path="/terms" element={<Legal kind="terms" />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>
       <Footer />
+      <WhatsAppButton />
     </div>
   )
 }
