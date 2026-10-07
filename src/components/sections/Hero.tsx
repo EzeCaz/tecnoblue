@@ -11,6 +11,7 @@ import { Magnetic } from '@/components/fx/Magnetic'
 import { ButtonLink } from '@/components/ui/Button'
 import { springs, useReducedMotion } from '@/lib/motion'
 import { useMediaQuery } from '@/lib/media'
+import { cn } from '@/lib/cn'
 
 const HERO_VIDEO = (import.meta.env.VITE_HERO_VIDEO as string | undefined) || ''
 
@@ -73,7 +74,7 @@ export function Hero() {
 /**
  * The hero film, pre-rendered with Remotion (`npm run video:render`) and played as a native video:
  * decoded by the GPU instead of re-rendering a React composition 30 times a second. Phones get the
- * 720p file; a still frame under reduced motion.
+ * portrait cut (FieldDemoMobile); a still frame under reduced motion.
  */
 function DemoVideo({ label, still, phone }: { label: string; still: boolean; phone: boolean }) {
   const { t } = useLang()
@@ -91,8 +92,8 @@ function DemoVideo({ label, still, phone }: { label: string; still: boolean; pho
   return (
     <div role="region" aria-label={label} className="group relative overflow-hidden rounded-[26px] bg-ink shadow-float ring-1 ring-white/10">
       {still
-        ? <img src="/video/field-demo-poster.jpg" alt="" width={720} height={456} className="aspect-[1200/760] w-full object-cover" />
-        : <video ref={ref} src={phone ? '/video/field-demo-720.mp4' : '/video/field-demo.mp4'} poster="/video/field-demo-poster.jpg" autoPlay muted loop playsInline preload="metadata" className="aspect-[1200/760] w-full object-cover" />}
+        ? <img src={phone ? '/video/field-demo-m-poster.jpg' : '/video/field-demo-poster.jpg'} alt="" width={phone ? 720 : 720} height={phone ? 900 : 456} className={cn('w-full object-cover', phone ? 'aspect-[4/5]' : 'aspect-[1200/760]')} />
+        : <video key={phone ? 'm' : 'd'} ref={ref} src={phone ? '/video/field-demo-m.mp4' : '/video/field-demo.mp4'} poster={phone ? '/video/field-demo-m-poster.jpg' : '/video/field-demo-poster.jpg'} autoPlay muted loop playsInline preload="metadata" className={cn('w-full object-cover', phone ? 'aspect-[4/5]' : 'aspect-[1200/760]')} />}
       {!still && (
         <button type="button" onClick={toggle} aria-label={playing ? t.ui.pause : t.ui.play} className="glass-dark absolute bottom-4 right-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white transition-[transform,background-color] duration-200 hover:bg-white/20 active:scale-95">
           {playing ? <Pause className="h-5 w-5" strokeWidth={2} /> : <Play className="ml-0.5 h-5 w-5" strokeWidth={2} />}

@@ -9,7 +9,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "video:preview": "remotion studio src/video/Root.tsx",
-    "video:render": "remotion render src/video/Root.tsx FieldDemo public/video/field-demo.mp4",
+    "video:render": "remotion render src/video/Root.tsx FieldDemo public/video/field-demo.mp4 --crf=27 && remotion render src/video/Root.tsx FieldDemoMobile public/video/field-demo-m.mp4 --crf=27 && remotion still src/video/Root.tsx FieldDemo public/video/field-demo-poster.jpg --frame=150 --scale=0.6 --jpeg-quality=80 && remotion still src/video/Root.tsx FieldDemoMobile public/video/field-demo-m-poster.jpg --frame=150 --jpeg-quality=80",
     "higgsfield": "tsx scripts/higgsfield.ts",
     "seedance": "tsx scripts/seedance.ts"
   },
