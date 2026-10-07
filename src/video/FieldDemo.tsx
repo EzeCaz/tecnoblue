@@ -7,7 +7,7 @@ import { AbsoluteFill, Easing, Img, Sequence, interpolate, spring, staticFile, u
  * slow camera pushes, critically damped springs and a light sweep between chapters.
  */
 export const DEMO_FPS = 30
-export const DEMO_DURATION = 1065
+export const DEMO_DURATION = 1036
 export const DEMO_WIDTH = 1200
 export const DEMO_HEIGHT = 760
 
@@ -18,21 +18,22 @@ const pop = { damping: 18, stiffness: 170, mass: 0.6 } // tiny overshoot for thi
 
 const CHAPTERS = [
   { id: 'intro', from: 0, len: 110 },
-  { id: 'gazpacho', from: 100, len: 185, logo: 'images/logos/gazpacho.png', tag: 'Field operations', line: 'Every visit, captured as it happens.' },
-  { id: 'directa', from: 275, len: 180, logo: 'images/logos/directa.svg', tag: 'Contact & operations centres', line: 'People and AI on the same floor, 24/7.' },
-  { id: 'callvu', from: 445, len: 180, logo: 'images/logos/callvu.svg', tag: 'CX completion', line: 'Conversations that finish, compliantly.' },
-  { id: 'realo', from: 615, len: 180, logo: 'images/logos/realo.png', tag: 'In-store retail', line: 'The shelf, digitised and measured.' },
-  { id: 'betterscreentv', from: 785, len: 180, logo: 'images/logos/betterscreentv.png', tag: 'Screen advertising', line: 'From the gym floor to the living room.' },
-  { id: 'outro', from: 955, len: 110 },
+  { id: 'gazpacho', from: 96, len: 180, logo: 'images/logos/gazpacho.png', tag: 'Field operations', line: 'Every visit, captured as it happens.' },
+  { id: 'directa', from: 262, len: 180, logo: 'images/logos/directa.svg', tag: 'Contact & operations centres', line: 'People and AI on the same floor, 24/7.' },
+  { id: 'callvu', from: 428, len: 180, logo: 'images/logos/callvu.svg', tag: 'CX completion', line: 'Conversations that finish, compliantly.' },
+  { id: 'realo', from: 594, len: 180, logo: 'images/logos/realo.png', tag: 'In-store retail', line: 'The shelf, digitised and measured.' },
+  { id: 'betterscreentv', from: 760, len: 180, logo: 'images/logos/betterscreentv.png', tag: 'Screen advertising', line: 'From the gym floor to the living room.' },
+  { id: 'outro', from: 926, len: 110 },
 ] as const
 
 /* ---------- shared pieces ---------- */
 
 function Backdrop({ seed = 0 }: { seed?: number }) {
   const f = useCurrentFrame()
-  const t = f / DEMO_FPS
-  const x1 = 30 + Math.sin(t * 0.35 + seed) * 12, y1 = 30 + Math.cos(t * 0.28 + seed) * 10
-  const x2 = 70 + Math.cos(t * 0.3 + seed * 2) * 14, y2 = 65 + Math.sin(t * 0.22 + seed) * 12
+  // angular frequencies are whole multiples of one cycle per film, so the last frame meets the first when the video loops
+  const w = (2 * Math.PI * f) / DEMO_DURATION
+  const x1 = 30 + Math.sin(w * 2 + seed) * 12, y1 = 30 + Math.cos(w * 1 + seed) * 10
+  const x2 = 70 + Math.cos(w * 2 + seed * 2) * 14, y2 = 65 + Math.sin(w * 3 + seed) * 12
   return (
     <AbsoluteFill style={{ background: INK }}>
       <AbsoluteFill style={{ background: `radial-gradient(42% 48% at ${x1}% ${y1}%, rgba(9,119,188,0.55), transparent 70%), radial-gradient(38% 42% at ${x2}% ${y2}%, rgba(68,180,230,0.28), transparent 70%)` }} />
@@ -45,9 +46,8 @@ function Backdrop({ seed = 0 }: { seed?: number }) {
 /** Slow camera push-in for the whole chapter plus a fade at both ends and a light sweep on entry. */
 function Chapter({ len, children }: { len: number; children: ReactNode }) {
   const f = useCurrentFrame()
-  const { fps } = useVideoConfig()
-  const inA = spring({ frame: f, fps, config: soft, durationInFrames: 22 })
-  const outA = interpolate(f, [len - 16, len], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.cubic) })
+  const inA = interpolate(f, [0, 14], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
+  const outA = interpolate(f, [len - 14, len], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.in(Easing.cubic) })
   const scale = interpolate(f, [0, len], [1.0, 1.045])
   const sweep = interpolate(f, [0, 34], [-40, 140], { extrapolateRight: 'clamp' })
   return (
@@ -119,22 +119,21 @@ function Intro() {
 function Gazpacho({ len }: { len: number }) {
   const f = useCurrentFrame()
   const pathLen = 1000
-  const drawn = interpolate(f, [18, 70], [pathLen, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.cubic) })
+  const drawn = interpolate(f, [10, 58], [pathLen, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.cubic) })
   const stops = [{ x: 150, y: 560, t: 22, n: 'Supermercado Luna' }, { x: 330, y: 380, t: 38, n: 'Minimarket Sol' }, { x: 560, y: 470, t: 54, n: 'Farmacia Central' }, { x: 760, y: 330, t: 68, n: 'Bodega El Prado' }]
   return (
     <Chapter len={len}>
-      <Backdrop seed={1} />
       <svg width={DEMO_WIDTH} height={DEMO_HEIGHT} style={{ position: 'absolute', inset: 0 }}>
         <defs><filter id="glow"><feGaussianBlur stdDeviation="6" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter></defs>
         <path d="M150 560 C 220 500, 270 420, 330 380 S 500 500, 560 470 S 700 360, 760 330" fill="none" stroke={SKY} strokeWidth={5} strokeLinecap="round" strokeDasharray={pathLen} strokeDashoffset={drawn} filter="url(#glow)" />
         {stops.map((s) => { const p = spring({ frame: f - s.t, fps: DEMO_FPS, config: pop }); const r = interpolate(f, [s.t, s.t + 40], [0, 44], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' }); const ro = interpolate(f, [s.t, s.t + 40], [0.5, 0], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' }); return <g key={s.n}><circle cx={s.x} cy={s.y} r={r} fill="none" stroke={SKY} strokeWidth={2} opacity={ro} /><g transform={`translate(${s.x} ${s.y}) scale(${p})`}><circle r={11} fill={SKY} stroke={INK} strokeWidth={4} /></g></g> })}
       </svg>
       {stops.map((s) => <Pop key={s.n} delay={s.t + 3} style={{ position: 'absolute', left: s.x + 24, top: s.y - 38, ...glass, borderRadius: 14, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ width: 8, height: 8, borderRadius: 99, background: GREEN }} /><span style={{ fontSize: 15, fontWeight: 700 }}>{s.n}</span><span style={{ fontSize: 12, color: GREEN, fontWeight: 700 }}>Checked in</span></Pop>)}
-      <Rise delay={30} style={{ position: 'absolute', right: 64, bottom: 64, ...glass, padding: 24, width: 300 }}>
+      <Rise delay={22} style={{ position: 'absolute', right: 64, bottom: 64, ...glass, padding: 24, width: 300 }}>
         <div style={label}>Today</div>
         <div style={{ display: 'flex', gap: 24, marginTop: 10 }}>
-          <div><div style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}><Count to={247} delay={34} /></div><div style={{ fontSize: 13, color: MUTED, marginTop: 6 }}>visits · <span style={{ color: GREEN }}>+12%</span></div></div>
-          <div><div style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}><Count to={38} delay={40} /></div><div style={{ fontSize: 13, color: MUTED, marginTop: 6 }}>reps live of 41</div></div>
+          <div><div style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}><Count to={247} delay={26} /></div><div style={{ fontSize: 13, color: MUTED, marginTop: 6 }}>visits · <span style={{ color: GREEN }}>+12%</span></div></div>
+          <div><div style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1 }}><Count to={38} delay={32} /></div><div style={{ fontSize: 13, color: MUTED, marginTop: 6 }}>reps live of 41</div></div>
         </div>
       </Rise>
       <ChapterHeader logo="images/logos/gazpacho.png" tag="Field operations" line="Every visit, captured as it happens." index={1} />
@@ -144,22 +143,21 @@ function Gazpacho({ len }: { len: number }) {
 
 function Directa({ len }: { len: number }) {
   const f = useCurrentFrame()
-  const sla = interpolate(f, [20, 70], [0, 0.94], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
+  const sla = interpolate(f, [14, 60], [0, 0.94], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.cubic) })
   const C = 2 * Math.PI * 54
   const feed = ['Inbound · billing → Agent Rosa M.', 'Telemetry · well 14 → auto-resolved', 'Outbound · renewal → RPA bot', 'Inbound · WhatsApp → Agent Luis P.', 'Alert · network node 7 → acknowledged']
   return (
     <Chapter len={len}>
-      <Backdrop seed={2} />
       <div style={{ position: 'absolute', left: 64, right: 64, bottom: 64, display: 'grid', gridTemplateColumns: '1fr 1fr 1.4fr', gap: 18, fontFamily: FONT }}>
-        <Rise delay={26} style={{ ...glass, padding: 24 }}><div style={label}>Calls in queue</div><div style={{ fontSize: 56, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, marginTop: 10 }}><Count to={7} from={23} delay={30} dur={50} /></div><div style={{ fontSize: 13, color: GREEN, marginTop: 8, fontWeight: 700 }}>falling · avg answer 18 s</div></Rise>
-        <Rise delay={32} style={{ ...glass, padding: 24, display: 'flex', alignItems: 'center', gap: 20 }}>
+        <Rise delay={12} style={{ ...glass, padding: 24 }}><div style={label}>Calls in queue</div><div style={{ fontSize: 56, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, marginTop: 10 }}><Count to={7} from={23} delay={30} dur={50} /></div><div style={{ fontSize: 13, color: GREEN, marginTop: 8, fontWeight: 700 }}>falling · avg answer 18 s</div></Rise>
+        <Rise delay={18} style={{ ...glass, padding: 24, display: 'flex', alignItems: 'center', gap: 20 }}>
           <svg width={128} height={128} viewBox="0 0 128 128"><circle cx={64} cy={64} r={54} stroke="rgba(255,255,255,0.12)" strokeWidth={10} fill="none" /><circle cx={64} cy={64} r={54} stroke={GREEN} strokeWidth={10} fill="none" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={C * (1 - sla)} transform="rotate(-90 64 64)" /><text x={64} y={70} textAnchor="middle" fill={WHITE} fontSize={24} fontWeight={800} fontFamily={FONT}>{Math.round(sla * 100)}%</text></svg>
           <div><div style={label}>SLA today</div><div style={{ fontSize: 15, marginTop: 8, lineHeight: 1.4 }}>Answered within target, across every channel.</div></div>
         </Rise>
-        <Rise delay={38} style={{ ...glass, padding: 20 }}>
+        <Rise delay={24} style={{ ...glass, padding: 20 }}>
           <div style={{ ...label, display: 'flex', justifyContent: 'space-between' }}><span>Live events</span><span style={{ color: GREEN }}>● Live</span></div>
           <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {feed.map((e, i) => { const s = spring({ frame: f - 44 - i * 7, fps: DEMO_FPS, config: soft, durationInFrames: 20 }); return <div key={e} style={{ opacity: s, transform: `translateX(${(1 - s) * 16}px)`, background: 'rgba(255,255,255,0.06)', borderRadius: 10, padding: '9px 12px', fontSize: 13, fontWeight: 600, display: 'flex', gap: 10, alignItems: 'center' }}><span style={{ width: 6, height: 6, borderRadius: 99, background: i % 2 ? SKY : GREEN }} />{e}</div> })}
+            {feed.map((e, i) => { const s = spring({ frame: f - 30 - i * 7, fps: DEMO_FPS, config: soft, durationInFrames: 20 }); return <div key={e} style={{ opacity: s, transform: `translateX(${(1 - s) * 16}px)`, background: 'rgba(255,255,255,0.06)', borderRadius: 10, padding: '9px 12px', fontSize: 13, fontWeight: 600, display: 'flex', gap: 10, alignItems: 'center' }}><span style={{ width: 6, height: 6, borderRadius: 99, background: i % 2 ? SKY : GREEN }} />{e}</div> })}
           </div>
         </Rise>
       </div>
@@ -174,7 +172,6 @@ function Callvu({ len }: { len: number }) {
   const dots = Math.floor(f / 5) % 3
   return (
     <Chapter len={len}>
-      <Backdrop seed={3} />
       <div style={{ position: 'absolute', right: 64, bottom: 64, width: 520, ...glass, padding: 26, fontFamily: FONT }}>
         <div style={{ ...label, display: 'flex', justifyContent: 'space-between' }}><span>Verified transaction</span><span>Session 4821</span></div>
         <Rise delay={10} style={{ marginTop: 16, maxWidth: 330, background: 'rgba(255,255,255,0.08)', borderRadius: '18px 18px 18px 6px', padding: '13px 16px', fontSize: 17 }}>I'd like to update my billing address.</Rise>
@@ -193,14 +190,13 @@ function Realo({ len }: { len: number }) {
   const cells = Array.from({ length: 24 }, (_, i) => i)
   return (
     <Chapter len={len}>
-      <Backdrop seed={4} />
       <div style={{ position: 'absolute', left: 64, bottom: 64, width: 640, ...glass, padding: 24, fontFamily: FONT }}>
         <div style={{ ...label, display: 'flex', justifyContent: 'space-between' }}><span>eShelf · aisle 4 · shopper dwell</span><span>Live</span></div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 8, marginTop: 14 }}>
-          {cells.map((i) => { const s = spring({ frame: f - 14 - (i % 8) * 3 - Math.floor(i / 8) * 6, fps: DEMO_FPS, config: soft, durationInFrames: 18 }); const heat = [0.2, 0.35, 0.9, 0.6, 0.25, 0.75, 0.4, 0.3][i % 8] * (1 - Math.floor(i / 8) * 0.2); const lit = interpolate(f, [40 + i * 1.5, 70 + i * 1.5], [0, heat], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }); return <div key={i} style={{ aspectRatio: '3/4', borderRadius: 8, background: `rgba(68,180,230,${0.08 + lit * 0.8})`, border: '1px solid rgba(255,255,255,0.1)', opacity: s, transform: `scale(${0.8 + 0.2 * s})` }} /> })}
+          {cells.map((i) => { const s = spring({ frame: f - 8 - (i % 8) * 3 - Math.floor(i / 8) * 6, fps: DEMO_FPS, config: soft, durationInFrames: 18 }); const heat = [0.2, 0.35, 0.9, 0.6, 0.25, 0.75, 0.4, 0.3][i % 8] * (1 - Math.floor(i / 8) * 0.2); const lit = interpolate(f, [40 + i * 1.5, 70 + i * 1.5], [0, heat], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }); return <div key={i} style={{ aspectRatio: '3/4', borderRadius: 8, background: `rgba(68,180,230,${0.08 + lit * 0.8})`, border: '1px solid rgba(255,255,255,0.1)', opacity: s, transform: `scale(${0.8 + 0.2 * s})` }} /> })}
         </div>
       </div>
-      <Rise delay={36} style={{ position: 'absolute', right: 64, bottom: 64, ...glass, padding: 24, width: 300 }}><div style={label}>Sales lift</div><div style={{ fontSize: 56, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, marginTop: 8, color: GREEN }}>+<Count to={5} delay={40} suffix="%" /></div><div style={{ fontSize: 13, color: MUTED, marginTop: 8 }}>average across 3,000+ stores</div></Rise>
+      <Rise delay={26} style={{ position: 'absolute', right: 64, bottom: 64, ...glass, padding: 24, width: 300 }}><div style={label}>Sales lift</div><div style={{ fontSize: 56, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1, marginTop: 8, color: GREEN }}>+<Count to={5} delay={40} suffix="%" /></div><div style={{ fontSize: 13, color: MUTED, marginTop: 8 }}>average across 3,000+ stores</div></Rise>
       <ChapterHeader logo="images/logos/realo.png" tag="In-store retail" line="The shelf, digitised and measured." index={4} />
     </Chapter>
   )
@@ -208,19 +204,18 @@ function Realo({ len }: { len: number }) {
 
 function Screens({ len }: { len: number }) {
   const f = useCurrentFrame()
-  const beam = interpolate(f, [34, 70], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.cubic) })
+  const beam = interpolate(f, [26, 60], [0, 1], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.inOut(Easing.cubic) })
   return (
     <Chapter len={len}>
-      <Backdrop seed={5} />
       <div style={{ position: 'absolute', left: 64, right: 64, bottom: 64, display: 'grid', gridTemplateColumns: '1fr 120px 1fr', alignItems: 'center', gap: 0, fontFamily: FONT }}>
-        <Rise delay={16} style={{ ...glass, padding: 18 }}><div style={label}>Gym screen</div><div style={{ marginTop: 12, aspectRatio: '16/9', borderRadius: 14, background: `linear-gradient(135deg, ${BLUE}, ${SKY})`, display: 'flex', alignItems: 'flex-end', padding: 18, fontSize: 24, fontWeight: 800, letterSpacing: '-0.02em' }}>Your campaign, at the moment of attention.</div></Rise>
+        <Rise delay={10} style={{ ...glass, padding: 18 }}><div style={label}>Gym screen</div><div style={{ marginTop: 12, aspectRatio: '16/9', borderRadius: 14, background: `linear-gradient(135deg, ${BLUE}, ${SKY})`, display: 'flex', alignItems: 'flex-end', padding: 18, fontSize: 24, fontWeight: 800, letterSpacing: '-0.02em' }}>Your campaign, at the moment of attention.</div></Rise>
         <svg width={120} height={60}><path d="M8 30 H112" stroke={SKY} strokeWidth={3} strokeDasharray="110" strokeDashoffset={110 * (1 - beam)} strokeLinecap="round" /><circle cx={8 + 104 * beam} cy={30} r={6} fill={SKY} opacity={beam} /></svg>
-        <Rise delay={30} style={{ ...glass, padding: 18 }}><div style={label}>Connected TV · at home</div><div style={{ marginTop: 12, aspectRatio: '16/9', borderRadius: 14, background: `linear-gradient(135deg, rgba(9,119,188,${0.3 + 0.7 * beam}), rgba(68,180,230,${0.3 + 0.7 * beam}))`, display: 'flex', alignItems: 'flex-end', padding: 18, fontSize: 24, fontWeight: 800, letterSpacing: '-0.02em', opacity: 0.4 + 0.6 * beam }}>Same audience. Same campaign.</div></Rise>
+        <Rise delay={22} style={{ ...glass, padding: 18 }}><div style={label}>Connected TV · at home</div><div style={{ marginTop: 12, aspectRatio: '16/9', borderRadius: 14, background: `linear-gradient(135deg, rgba(9,119,188,${0.3 + 0.7 * beam}), rgba(68,180,230,${0.3 + 0.7 * beam}))`, display: 'flex', alignItems: 'flex-end', padding: 18, fontSize: 24, fontWeight: 800, letterSpacing: '-0.02em', opacity: 0.4 + 0.6 * beam }}>Same audience. Same campaign.</div></Rise>
       </div>
-      <Rise delay={60} style={{ position: 'absolute', right: 64, top: 230, ...glass, padding: 20, display: 'flex', gap: 28 }}>
-        <div><div style={label}>Impressions</div><div style={{ fontSize: 34, fontWeight: 800, letterSpacing: '-0.03em', marginTop: 6 }}><Count to={1.2} delay={64} decimals={1} suffix="M" /></div></div>
-        <div><div style={label}>Verified</div><div style={{ fontSize: 34, fontWeight: 800, letterSpacing: '-0.03em', marginTop: 6, color: GREEN }}><Count to={100} delay={64} suffix="%" /></div></div>
-        <div><div style={label}>Cross-screen lift</div><div style={{ fontSize: 34, fontWeight: 800, letterSpacing: '-0.03em', marginTop: 6, color: SKY }}>+<Count to={23} delay={64} suffix="%" /></div></div>
+      <Rise delay={46} style={{ position: 'absolute', right: 64, top: 230, ...glass, padding: 20, display: 'flex', gap: 28 }}>
+        <div><div style={label}>Impressions</div><div style={{ fontSize: 34, fontWeight: 800, letterSpacing: '-0.03em', marginTop: 6 }}><Count to={1.2} delay={50} decimals={1} suffix="M" /></div></div>
+        <div><div style={label}>Verified</div><div style={{ fontSize: 34, fontWeight: 800, letterSpacing: '-0.03em', marginTop: 6, color: GREEN }}><Count to={100} delay={50} suffix="%" /></div></div>
+        <div><div style={label}>Cross-screen lift</div><div style={{ fontSize: 34, fontWeight: 800, letterSpacing: '-0.03em', marginTop: 6, color: SKY }}>+<Count to={23} delay={50} suffix="%" /></div></div>
       </Rise>
       <ChapterHeader logo="images/logos/betterscreentv.png" tag="Screen advertising" line="From the gym floor to the living room." index={5} />
     </Chapter>
@@ -231,7 +226,6 @@ function Outro({ len }: { len: number }) {
   const logos = ['images/logos/gazpacho.png', 'images/logos/directa.svg', 'images/logos/callvu.svg', 'images/logos/realo.png', 'images/logos/betterscreentv.png']
   return (
     <Chapter len={len}>
-      <Backdrop seed={6} />
       <AbsoluteFill style={{ fontFamily: FONT, justifyContent: 'center', alignItems: 'center', color: WHITE }}>
         <div style={{ display: 'flex', gap: 14 }}>{logos.map((l, i) => <Pop key={l} delay={6 + i * 5}><div style={{ width: 92, height: 92, borderRadius: 24, background: WHITE, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 20px 40px -20px rgba(0,0,0,0.6)' }}><Img src={staticFile(l)} alt="" style={{ maxWidth: 64, maxHeight: 44, objectFit: 'contain' }} /></div></Pop>)}</div>
         <Rise delay={30} dist={30}><div style={{ fontSize: 60, fontWeight: 800, letterSpacing: '-0.035em', marginTop: 40, lineHeight: 1 }}>Five platforms. <span style={{ color: SKY }}>One partner.</span></div></Rise>
@@ -252,7 +246,8 @@ export function FieldDemo() {
   const c = Object.fromEntries(CHAPTERS.map((x) => [x.id, { from: x.from, len: x.len }])) as unknown as Record<(typeof CHAPTERS)[number]['id'], { from: number; len: number }>
   return (
     <AbsoluteFill style={{ background: INK }}>
-      <Sequence from={c.intro.from} durationInFrames={c.intro.len}><Chapter len={c.intro.len}><Backdrop seed={0} /><Intro /></Chapter></Sequence>
+      <Backdrop seed={0} />
+      <Sequence from={c.intro.from} durationInFrames={c.intro.len}><Chapter len={c.intro.len}><Intro /></Chapter></Sequence>
       <Sequence from={c.gazpacho.from} durationInFrames={c.gazpacho.len}><Gazpacho len={c.gazpacho.len} /></Sequence>
       <Sequence from={c.directa.from} durationInFrames={c.directa.len}><Directa len={c.directa.len} /></Sequence>
       <Sequence from={c.callvu.from} durationInFrames={c.callvu.len}><Callvu len={c.callvu.len} /></Sequence>
