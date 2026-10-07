@@ -13,7 +13,7 @@ export function SplitReveal({ text, as: Tag = 'span', className, delay = 0, stag
   return (
     <Tag id={id} className={className} aria-label={text}>
       {words.map((wd, i) => (
-        <span key={`${wd}-${i}`} className="inline-block overflow-hidden pb-[0.08em] align-bottom" aria-hidden="true">
+        <span key={`${wd}-${i}`} className="inline-block overflow-hidden pb-[0.2em] -mb-[0.2em] align-bottom" aria-hidden="true">
           <motion.span
             className="inline-block will-change-transform"
             initial={{ y: '110%', opacity: 0, filter: 'blur(6px)' }}

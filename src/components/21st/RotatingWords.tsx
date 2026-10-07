@@ -17,7 +17,7 @@ export function RotatingWords({ words, interval = 2600, className }: { words: re
   }, [i, interval, reduce, words.length])
   if (reduce) return <span className={className}>{words[0]}</span>
   return (
-    <span className={cn('relative inline-grid overflow-hidden align-bottom', className)} aria-live="polite">
+    <span className={cn('relative inline-grid overflow-hidden align-bottom pb-[0.18em] -mb-[0.18em]', className)} aria-live="polite">
       {/* sizer keeps the line width stable */}
       <span className="invisible col-start-1 row-start-1 whitespace-nowrap">{words.reduce((a, b) => (a.length > b.length ? a : b))}</span>
       <AnimatePresence initial={false}>

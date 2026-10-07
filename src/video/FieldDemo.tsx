@@ -85,7 +85,7 @@ function ChapterHeader({ logo, tag, line, index }: { logo: string; tag: string; 
   return (
     <div style={{ position: 'absolute', left: 64, top: 56, right: 64, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', fontFamily: FONT }}>
       <div>
-        <Rise delay={4}><div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: WHITE, borderRadius: 14, padding: '10px 16px' }}><Img src={staticFile(logo)} style={{ height: logo.includes('gazpacho') ? 48 : logo.includes('realo') ? 28 : 34, width: 'auto' }} /></div></Rise>
+        <Rise delay={4}><div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, background: WHITE, borderRadius: 14, padding: '10px 16px' }}><Img src={staticFile(logo)} alt="" style={{ height: logo.includes('gazpacho') ? 48 : logo.includes('realo') ? 28 : 34, width: 'auto' }} /></div></Rise>
         <Rise delay={10}><div style={{ ...label, marginTop: 18, color: SKY }}>{tag}</div></Rise>
         <Rise delay={14}><div style={{ fontSize: 40, fontWeight: 800, letterSpacing: '-0.03em', color: WHITE, marginTop: 6, maxWidth: 560, lineHeight: 1.08 }}>{line}</div></Rise>
       </div>
@@ -104,7 +104,7 @@ function Intro() {
   return (
     <AbsoluteFill style={{ fontFamily: FONT, justifyContent: 'center', alignItems: 'center', color: WHITE }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 18, transform: `scale(${0.8 + 0.2 * mark})`, opacity: mark }}>
-        <Img src={staticFile('images/logo-mark.png')} style={{ width: 64, height: 64 }} />
+        <Img src={staticFile('images/logo-mark.png')} alt="" style={{ width: 64, height: 64 }} />
         <span style={{ fontSize: 44, fontWeight: 800, letterSpacing: '-0.03em' }}>tecno<span style={{ color: SKY }}>.</span>blue</span>
       </div>
       <div style={{ display: 'flex', gap: 18, marginTop: 34, fontSize: 72, fontWeight: 800, letterSpacing: '-0.035em', lineHeight: 1 }}>
@@ -233,7 +233,7 @@ function Outro({ len }: { len: number }) {
     <Chapter len={len}>
       <Backdrop seed={6} />
       <AbsoluteFill style={{ fontFamily: FONT, justifyContent: 'center', alignItems: 'center', color: WHITE }}>
-        <div style={{ display: 'flex', gap: 14 }}>{logos.map((l, i) => <Pop key={l} delay={6 + i * 5}><div style={{ width: 92, height: 92, borderRadius: 24, background: WHITE, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 20px 40px -20px rgba(0,0,0,0.6)' }}><Img src={staticFile(l)} style={{ maxWidth: 64, maxHeight: 44, objectFit: 'contain' }} /></div></Pop>)}</div>
+        <div style={{ display: 'flex', gap: 14 }}>{logos.map((l, i) => <Pop key={l} delay={6 + i * 5}><div style={{ width: 92, height: 92, borderRadius: 24, background: WHITE, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 20px 40px -20px rgba(0,0,0,0.6)' }}><Img src={staticFile(l)} alt="" style={{ maxWidth: 64, maxHeight: 44, objectFit: 'contain' }} /></div></Pop>)}</div>
         <Rise delay={30} dist={30}><div style={{ fontSize: 60, fontWeight: 800, letterSpacing: '-0.035em', marginTop: 40, lineHeight: 1 }}>Five platforms. <span style={{ color: SKY }}>One partner.</span></div></Rise>
         <Rise delay={40}><div style={{ marginTop: 18, fontSize: 20, color: MUTED }}>Implemented and supported by Tecno.Blue · tecno.blue</div></Rise>
       </AbsoluteFill>

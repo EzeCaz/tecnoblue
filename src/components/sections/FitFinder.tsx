@@ -62,14 +62,14 @@ export function FitFinder() {
 
           <LayoutGroup>
             <ul className="space-y-3">
-              {ranked.map(({ s, score }, i) => {
+              {ranked.map(({ s, score }) => {
                 const best = top?.id === s.id
                 return (
-                  <motion.li key={s.id} layout transition={springs.default} className={cn('rounded-[22px] bg-ground ring-1 transition-colors duration-300', best ? 'ring-blue shadow-soft' : score > 0 ? 'ring-sky/60' : 'ring-line', !anyPicked && i > 0 && 'opacity-90')}>
+                  <motion.li key={s.id} layout transition={springs.default} className={cn('rounded-[22px] bg-ground ring-1 transition-colors duration-300', best ? 'ring-blue shadow-soft' : score > 0 ? 'ring-sky/60' : 'ring-line')}>
                     <div className="flex items-center gap-4 p-4">
                       <div className="flex h-12 w-24 shrink-0 items-center justify-center rounded-xl bg-white"><img src={s.logo} alt="" className={cn('w-auto max-w-[80px] object-contain', s.logoClass === 'h-12' ? 'h-9' : 'h-6')} /></div>
                       <div className="min-w-0 flex-1"><div className="text-[15px] font-extrabold text-fg">{s.name}</div><div className="truncate text-[13px] text-fg-3">{s.tag[lang]}</div></div>
-                      <div className="flex items-center gap-1" aria-label={`${score} ${t.fit.matches}`}>{[0, 1, 2].map((k) => <span key={k} className={cn('h-1.5 w-5 rounded-full transition-colors duration-300', k < score ? 'bg-blue' : 'bg-fg/10')} />)}</div>
+                      <div className="flex items-center gap-1" role="img" aria-label={`${score} ${t.fit.matches}`}>{[0, 1, 2].map((k) => <span key={k} className={cn('h-1.5 w-5 rounded-full transition-colors duration-300', k < score ? 'bg-blue' : 'bg-fg/10')} />)}</div>
                     </div>
                     <AnimatePresence initial={false}>
                       {best && (

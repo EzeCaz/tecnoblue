@@ -55,11 +55,11 @@ export function Hero() {
           </ContainerScroll>
           {/* floating chips */}
           <motion.div initial={reduce ? false : { opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ ...springs.enter, delay: 0.7 }} className="glass-dark absolute -left-16 top-16 hidden rounded-2xl p-4 text-white xl:block">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-white/55">{t.hero.chip1Label}</div>
+            <div className="text-[11px] font-bold uppercase tracking-wider text-white/75">{t.hero.chip1Label}</div>
             <div className="mt-1 text-[26px] font-extrabold tracking-[-0.03em]">247 <span className="text-[13px] font-semibold text-green">+12%</span></div>
           </motion.div>
           <motion.div initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ ...springs.enter, delay: 0.8 }} className="glass-dark absolute -right-16 bottom-20 hidden rounded-2xl p-4 text-white xl:block">
-            <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-white/55"><span className="h-2 w-2 rounded-full bg-green" />{t.hero.chip2Label}</div>
+            <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-white/75"><span className="h-2 w-2 rounded-full bg-green" />{t.hero.chip2Label}</div>
             <div className="mt-1 text-[15px] font-bold">{t.hero.chip2Value}</div>
           </motion.div>
         </motion.div>

@@ -1,5 +1,5 @@
 import { useMemo, useState, type FormEvent } from 'react'
-import { CheckCircle2, AlertCircle } from 'lucide-react'
+import { CheckCircle2, AlertCircle, MapPin } from 'lucide-react'
 import { useLang } from '@/i18n/LanguageContext'
 import { PageHero } from '@/components/ui/PageHero'
 import { Button } from '@/components/ui/Button'
@@ -18,6 +18,7 @@ export function Contact({ subject }: { subject?: string } = {}) {
   const { lang, t } = useLang()
   const [status, setStatus] = useState<Status>('idle')
   const [errors, setErrors] = useState<Errors>({})
+  const [mapOn, setMapOn] = useState(false)
 
   const countries = useMemo(() => {
     const dn = new Intl.DisplayNames([lang], { type: 'region' })
@@ -65,7 +66,7 @@ export function Contact({ subject }: { subject?: string } = {}) {
           <div className="rounded-[32px] bg-surface p-6 shadow-soft ring-1 ring-line sm:p-12">
             {status === 'sent' ? (
               <div role="status" className="flex flex-col items-center py-10 text-center">
-                <CheckCircle2 aria-hidden="true" className="h-14 w-14 text-blue" strokeWidth={1.25} />
+                <CheckCircle2 aria-hidden="true" className="h-14 w-14 text-accent" strokeWidth={1.25} />
                 <h2 className="title-sm mt-5 text-fg">{t.contact.successTitle}</h2>
                 <p className="mt-2 text-[17px] text-fg-2">{t.contact.successBody}</p>
                 <Button variant="secondary" className="mt-8" onClick={() => setStatus('idle')}>{t.contact.another}</Button>
@@ -126,23 +127,24 @@ export function Contact({ subject }: { subject?: string } = {}) {
             )}
           </div>
 
-          <aside>
-            <h2 className="title-sm text-fg">{t.contact.office}</h2>
+          <div aria-labelledby="office-title">
+            <h2 id="office-title" className="title-sm text-fg">{t.contact.office}</h2>
             <address className="mt-3 text-[16px] not-italic leading-relaxed text-fg-2">
               250 NW 136th Ave, Suite 113<br />Pembroke Pines, FL 33028<br />United States
             </address>
             <div className="mt-6 overflow-hidden rounded-[24px] shadow-soft ring-1 ring-line">
-              <iframe
-                title="Tecno.Blue office location"
-                src="https://www.google.com/maps?q=250+NW+136th+Ave+Suite+113+Pembroke+Pines+FL+33028&output=embed"
-                width="100%"
-                height="280"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="block"
-              />
+              {mapOn ? (
+                <iframe title="Tecno.Blue office location" src="https://www.google.com/maps?q=250+NW+136th+Ave+Suite+113+Pembroke+Pines+FL+33028&output=embed" width="100%" height="280" loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="block" />
+              ) : (
+                <div className="relative flex h-[280px] flex-col items-center justify-center gap-3 bg-ground p-6 text-center" style={{ backgroundImage: 'radial-gradient(rgb(11 31 58 / 0.12) 1px, transparent 1px)', backgroundSize: '18px 18px' }}>
+                  <MapPin aria-hidden="true" className="h-8 w-8 text-accent" strokeWidth={1.75} />
+                  <p className="max-w-[30ch] text-[14px] text-fg-2">{t.contact.mapConsent}</p>
+                  <Button type="button" variant="secondary" size="sm" onClick={() => setMapOn(true)}>{t.contact.mapLoad}</Button>
+                  <a href="https://www.google.com/maps/search/?api=1&query=250+NW+136th+Ave+Suite+113+Pembroke+Pines+FL+33028" target="_blank" rel="noreferrer" className="text-[13px] font-semibold text-accent hover:underline">{t.contact.mapOpen}</a>
+                </div>
+              )}
             </div>
-          </aside>
+          </div>
         </div>
       </section>
     </>
