@@ -4,10 +4,10 @@ import { cn } from '@/lib/cn'
 
 /**
  * Flow-field particle layer. Particles drift along a curl-noise field, are pulled into a swirl around
- * the pointer, and pick up speed with scroll velocity. Canvas 2D, ~700 particles, pauses offscreen.
+ * the pointer, and pick up speed with scroll velocity. Canvas 2D at DPR 1, ~420 particles, pauses offscreen.
  * Reduced motion: one static frame.
  */
-export function ParticleField({ className, count = 700, color = '68, 180, 230' }: { className?: string; count?: number; color?: string }) {
+export function ParticleField({ className, count = 420, color = '68, 180, 230' }: { className?: string; count?: number; color?: string }) {
   const ref = useRef<HTMLCanvasElement>(null)
   const reduce = useReducedMotion()
 
@@ -15,7 +15,7 @@ export function ParticleField({ className, count = 700, color = '68, 180, 230' }
     const canvas = ref.current
     if (!canvas) return
     const ctx = canvas.getContext('2d', { alpha: true })!
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
+    const dpr = 1
     let w = 0, h = 0
     const P = new Float32Array(count * 4) // x, y, vx, vy
     const life = new Float32Array(count)
@@ -64,6 +64,7 @@ export function ParticleField({ className, count = 700, color = '68, 180, 230' }
       scrollEnergy *= 0.94
       ctx.clearRect(0, 0, w, h)
       const speed = 0.55 + scrollEnergy * 2.2
+      let lastA = -1
       for (let i = 0; i < count; i++) {
         const o = i * 4
         let x = P[o], y = P[o + 1]
@@ -85,7 +86,8 @@ export function ParticleField({ className, count = 700, color = '68, 180, 230' }
         P[o] = x; P[o + 1] = y
         const fadeIn = Math.min(1, life[i] / 40), fadeOut = Math.min(1, (520 - life[i]) / 60)
         const alpha = 0.16 * fadeIn * fadeOut + (cur.on > 0.01 ? 0.25 * Math.max(0, 1 - Math.hypot(x - cur.x, y - cur.y) / 260) : 0)
-        ctx.fillStyle = `rgba(${color}, ${alpha})`
+        const qa = Math.round(alpha * 40) / 40
+        if (qa !== lastA) { ctx.fillStyle = `rgba(${color}, ${qa})`; lastA = qa }
         const s = 1 + (scrollEnergy * 1.2)
         ctx.fillRect(x, y, s, s)
       }

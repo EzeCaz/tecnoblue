@@ -1,8 +1,8 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useLang } from '@/i18n/LanguageContext'
 import { ShaderBackground } from '@/components/fx/ShaderBackground'
-import { Suspense, lazy } from 'react'
-const DemoPlayer = lazy(() => import('@/components/fx/DemoPlayer').then((m) => ({ default: m.DemoPlayer })))
+import { useEffect, useRef, useState } from 'react'
+import { Pause, Play } from 'lucide-react'
 import { ContainerScroll } from '@/components/21st/ContainerScroll'
 import { RotatingWords } from '@/components/21st/RotatingWords'
 import { VideoBackground } from '@/components/fx/VideoBackground'
@@ -22,8 +22,8 @@ export function Hero() {
   const copyY = useTransform(scrollY, [0, 600], [0, reduce ? 0 : 120])
   const copyOpacity = useTransform(scrollY, [0, 500], [1, reduce ? 1 : 0.35])
   const item = (delay: number) => reduce ? {} : ({
-    initial: { opacity: 0, y: 24, filter: 'blur(6px)' },
-    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    initial: { opacity: 0, y: 24 },
+    animate: { opacity: 1, y: 0 },
     transition: { ...springs.enter, delay },
   })
   return (
@@ -51,8 +51,8 @@ export function Hero() {
 
         <motion.div {...item(0.4)} className="relative mx-auto mt-16 max-w-[1080px]">
           <ContainerScroll>
-            <div className="rounded-[30px] bg-white/[0.06] p-2 ring-1 ring-white/10 backdrop-blur-sm">
-              {phone ? <PhoneDemo label={t.hero.demoLabel} still={reduce} /> : <Suspense fallback={<div className="aspect-[1200/760] w-full rounded-[26px] bg-ink/60" aria-hidden="true" />}><DemoPlayer label={t.hero.demoLabel} /></Suspense>}
+            <div className="rounded-[30px] bg-white/[0.06] p-2 ring-1 ring-white/10">
+              <DemoVideo label={t.hero.demoLabel} still={reduce} phone={phone} />
             </div>
           </ContainerScroll>
           {/* floating chips */}
@@ -70,13 +70,34 @@ export function Hero() {
   )
 }
 
-/** Phones get the pre-rendered film as a native video (far lighter than running the Remotion composition live). */
-function PhoneDemo({ label, still }: { label: string; still: boolean }) {
+/**
+ * The hero film, pre-rendered with Remotion (`npm run video:render`) and played as a native video:
+ * decoded by the GPU instead of re-rendering a React composition 30 times a second. Phones get the
+ * 720p file; a still frame under reduced motion.
+ */
+function DemoVideo({ label, still, phone }: { label: string; still: boolean; phone: boolean }) {
+  const { t } = useLang()
+  const ref = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(!still)
+  useEffect(() => {
+    const v = ref.current
+    if (!v) return
+    const onPlay = () => setPlaying(true)
+    const onPause = () => setPlaying(false)
+    v.addEventListener('play', onPlay); v.addEventListener('pause', onPause)
+    return () => { v.removeEventListener('play', onPlay); v.removeEventListener('pause', onPause) }
+  }, [still])
+  const toggle = () => { const v = ref.current; if (!v) return; if (v.paused) void v.play(); else v.pause() }
   return (
-    <div role="region" aria-label={label} className="relative overflow-hidden rounded-[26px] bg-ink shadow-float ring-1 ring-white/10">
+    <div role="region" aria-label={label} className="group relative overflow-hidden rounded-[26px] bg-ink shadow-float ring-1 ring-white/10">
       {still
         ? <img src="/video/field-demo-poster.jpg" alt="" width={720} height={456} className="aspect-[1200/760] w-full object-cover" />
-        : <video src="/video/field-demo-720.mp4" poster="/video/field-demo-poster.jpg" autoPlay muted loop playsInline preload="metadata" className="aspect-[1200/760] w-full object-cover" />}
+        : <video ref={ref} src={phone ? '/video/field-demo-720.mp4' : '/video/field-demo.mp4'} poster="/video/field-demo-poster.jpg" autoPlay muted loop playsInline preload="metadata" className="aspect-[1200/760] w-full object-cover" />}
+      {!still && (
+        <button type="button" onClick={toggle} aria-label={playing ? t.ui.pause : t.ui.play} className="glass-dark absolute bottom-4 right-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white transition-[transform,background-color] duration-200 hover:bg-white/20 active:scale-95">
+          {playing ? <Pause className="h-5 w-5" strokeWidth={2} /> : <Play className="ml-0.5 h-5 w-5" strokeWidth={2} />}
+        </button>
+      )}
     </div>
   )
 }

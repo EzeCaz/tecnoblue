@@ -34,7 +34,7 @@ export function SolutionDetail() {
             <p className="lead mt-6 max-w-[52ch] text-white/75">{s.summary[lang]}</p>
             <div className="mt-9 flex flex-wrap gap-3"><ButtonLink to="#contact" size="lg" icon>{fill(t.detail.askAbout)}</ButtonLink><ButtonLink to={s.url} size="lg" variant="ghost">{fill(t.detail.visit)}</ButtonLink></div>
           </div>
-          <TiltCard max={5} className="rounded-[28px]"><div className="rounded-[28px] bg-white/[0.06] p-2 ring-1 ring-white/10 backdrop-blur-sm"><MiniUI id={s.id} /></div></TiltCard>
+          <TiltCard max={5} className="rounded-[28px]"><div className="rounded-[28px] bg-white/[0.06] p-2 ring-1 ring-white/10"><MiniUI id={s.id} /></div></TiltCard>
         </div>
       </section>
 

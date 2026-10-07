@@ -22,8 +22,8 @@ export function SplitReveal({ text, as: Tag = 'span', className, delay = 0, stag
           <motion.span
             className="inline-block will-change-transform"
             variants={{
-              hidden: { y: '110%', opacity: 0, filter: 'blur(6px)' },
-              show: { y: 0, opacity: 1, filter: 'blur(0px)', transition: { ...springs.enter, delay: delay + i * stagger } },
+              hidden: { y: '110%', opacity: 0 },
+              show: { y: 0, opacity: 1, transition: { ...springs.enter, delay: delay + i * stagger } },
             }}
           >
             {wd}

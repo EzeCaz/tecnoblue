@@ -56,7 +56,9 @@ export function ShaderBackground({ className }: { className?: string }) {
     const host = ref.current
     if (!host) return
     let renderer: Renderer
-    try { renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio, 1.5), alpha: false, antialias: false }) } catch { return }
+    // Half-resolution render (the noise is soft anyway) at DPR 1: ~4-9x fewer fragment evaluations than full-res retina.
+    const SCALE = 0.5
+    try { renderer = new Renderer({ dpr: 1, alpha: false, antialias: false }) } catch { return }
     const gl = renderer.gl
     if (!gl) return
     gl.canvas.style.position = 'absolute'
@@ -78,7 +80,8 @@ export function ShaderBackground({ className }: { className?: string }) {
 
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = host
-      renderer.setSize(w, h)
+      renderer.setSize(Math.max(1, Math.round(w * SCALE)), Math.max(1, Math.round(h * SCALE)))
+      gl.canvas.style.width = '100%'; gl.canvas.style.height = '100%'
       program.uniforms.uRes.value = [w, h]
     }
     resize()
@@ -100,6 +103,8 @@ export function ShaderBackground({ className }: { className?: string }) {
 
     let raf = 0
     let visible = true
+    const onVis = () => { if (document.hidden) { cancelAnimationFrame(raf); raf = 0 } else if (visible && !reduce && !window.matchMedia('(max-width: 767px)').matches) loop() }
+    document.addEventListener('visibilitychange', onVis)
     let start = performance.now()
     const io = new IntersectionObserver(([en]) => { visible = en.isIntersecting; if (visible && !reduce && !window.matchMedia('(max-width: 767px)').matches) loop() }, { threshold: 0.01 })
     io.observe(host)
@@ -123,6 +128,7 @@ export function ShaderBackground({ className }: { className?: string }) {
 
     return () => {
       cancelAnimationFrame(raf)
+      document.removeEventListener('visibilitychange', onVis)
       ro.disconnect(); io.disconnect()
       host.removeEventListener('pointermove', onMove)
       host.removeEventListener('pointerleave', onLeave)

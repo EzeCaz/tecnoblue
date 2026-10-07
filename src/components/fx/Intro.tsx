@@ -28,7 +28,7 @@ export function Intro() {
           exit={{ opacity: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } }}
           aria-hidden="true"
         >
-          <motion.div initial={{ scale: 0.6, opacity: 0, filter: 'blur(10px)' }} animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }} transition={{ type: 'spring', bounce: 0, duration: 0.9 }} className="flex items-center gap-3">
+          <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: 'spring', bounce: 0, duration: 0.9 }} className="flex items-center gap-3">
             <img src="/images/logo-mark.png" alt="" width={56} height={56} className="h-14 w-14" />
             <motion.span initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35, duration: 0.5 }} className="text-[34px] font-extrabold tracking-[-0.03em] text-white">tecno<span className="text-sky">.</span>blue</motion.span>
           </motion.div>

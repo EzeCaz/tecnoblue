@@ -72,9 +72,9 @@ export function Navbar() {
           <motion.div
             id="mobile-nav"
             key="mobile-nav"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
             transition={springs.sheet}
             style={{ transformOrigin: 'top center' }}
             className="glass pointer-events-auto absolute inset-x-4 top-[88px] max-h-[calc(100dvh-104px)] overflow-y-auto overscroll-contain rounded-[28px] p-4 text-fg shadow-float md:hidden"

@@ -21,7 +21,7 @@ export function ContainerScroll({ children, className }: { children: ReactNode; 
   const y = useSpring(yRaw, springPhysics.settle)
   return (
     <div ref={ref} className={cn('relative', className)} style={{ perspective: 1100 }}>
-      <motion.div style={reduce ? undefined : { rotateX, scale, y, transformStyle: 'preserve-3d' }}>{children}</motion.div>
+      <motion.div className={reduce ? undefined : 'will-change-transform'} style={reduce ? undefined : { rotateX, scale, y, transformStyle: 'preserve-3d' }}>{children}</motion.div>
     </div>
   )
 }

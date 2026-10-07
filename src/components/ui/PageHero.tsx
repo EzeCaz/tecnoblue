@@ -5,7 +5,7 @@ import { springs, useReducedMotion } from '@/lib/motion'
 
 export function PageHero({ kicker, title, lead, children }: { kicker: string; title: string; lead?: string; children?: ReactNode }) {
   const reduce = useReducedMotion()
-  const item = (delay: number) => reduce ? {} : ({ initial: { opacity: 0, y: 20, filter: 'blur(6px)' }, animate: { opacity: 1, y: 0, filter: 'blur(0px)' }, transition: { ...springs.enter, delay } })
+  const item = (delay: number) => reduce ? {} : ({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0,  }, transition: { ...springs.enter, delay } })
   return (
     <section className="relative overflow-hidden bg-ink text-white">
       <ShaderBackground />
