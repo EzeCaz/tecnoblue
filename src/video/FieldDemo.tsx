@@ -7,7 +7,7 @@ import { AbsoluteFill, Easing, Img, Sequence, interpolate, spring, staticFile, u
  * slow camera pushes, critically damped springs and a light sweep between chapters.
  */
 export const DEMO_FPS = 30
-export const DEMO_DURATION = 600
+export const DEMO_DURATION = 1065
 export const DEMO_WIDTH = 1200
 export const DEMO_HEIGHT = 760
 
@@ -17,13 +17,13 @@ const soft = { damping: 200 } // critically damped: no overshoot
 const pop = { damping: 18, stiffness: 170, mass: 0.6 } // tiny overshoot for things that "land"
 
 const CHAPTERS = [
-  { id: 'intro', from: 0, len: 80 },
-  { id: 'gazpacho', from: 70, len: 105, logo: 'images/logos/gazpacho.png', tag: 'Field operations', line: 'Every visit, captured as it happens.' },
-  { id: 'directa', from: 165, len: 100, logo: 'images/logos/directa.svg', tag: 'Contact & operations centres', line: 'People and AI on the same floor, 24/7.' },
-  { id: 'callvu', from: 255, len: 100, logo: 'images/logos/callvu.svg', tag: 'CX completion', line: 'Conversations that finish, compliantly.' },
-  { id: 'realo', from: 345, len: 100, logo: 'images/logos/realo.png', tag: 'In-store retail', line: 'The shelf, digitised and measured.' },
-  { id: 'betterscreentv', from: 435, len: 100, logo: 'images/logos/betterscreentv.png', tag: 'Screen advertising', line: 'From the gym floor to the living room.' },
-  { id: 'outro', from: 525, len: 75 },
+  { id: 'intro', from: 0, len: 110 },
+  { id: 'gazpacho', from: 100, len: 185, logo: 'images/logos/gazpacho.png', tag: 'Field operations', line: 'Every visit, captured as it happens.' },
+  { id: 'directa', from: 275, len: 180, logo: 'images/logos/directa.svg', tag: 'Contact & operations centres', line: 'People and AI on the same floor, 24/7.' },
+  { id: 'callvu', from: 445, len: 180, logo: 'images/logos/callvu.svg', tag: 'CX completion', line: 'Conversations that finish, compliantly.' },
+  { id: 'realo', from: 615, len: 180, logo: 'images/logos/realo.png', tag: 'In-store retail', line: 'The shelf, digitised and measured.' },
+  { id: 'betterscreentv', from: 785, len: 180, logo: 'images/logos/betterscreentv.png', tag: 'Screen advertising', line: 'From the gym floor to the living room.' },
+  { id: 'outro', from: 955, len: 110 },
 ] as const
 
 /* ---------- shared pieces ---------- */
