@@ -1,70 +1,53 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { motion, useMotionValue, animate, type PanInfo } from 'framer-motion'
-import { useReducedMotion } from '@/lib/motion'
 import { useLang } from '@/i18n/LanguageContext'
 
 /**
- * Touch/narrow-screen carousel with Apple-style physics: 1:1 drag, momentum projection on release
- * (exponential decay, d = 0.998), snap to the nearest panel from the PROJECTED endpoint, spring
- * hand-off that carries the release velocity, and rubber-banding at the ends.
+ * Touch / narrow-screen carousel built on native scroll-snap: the platform's own 1:1 drag, momentum
+ * and rubber-banding, and every swipe settles exactly on a panel. Dots mirror the current panel and
+ * jump to it on tap; keyboard focus inside a panel brings that panel into view.
  */
-export function DragRail({ children, count, gap = 20 }: { children: ReactNode; count: number; gap?: number }) {
-  const reduce = useReducedMotion()
+export function DragRail({ children, count }: { children: ReactNode; count: number }) {
   const { t } = useLang()
-  const viewport = useRef<HTMLDivElement>(null)
-  const x = useMotionValue(0)
-  const [panelW, setPanelW] = useState(0)
+  const scroller = useRef<HTMLDivElement>(null)
   const [index, setIndex] = useState(0)
 
   useEffect(() => {
-    const el = viewport.current
+    const el = scroller.current
     if (!el) return
-    const measure = () => setPanelW(el.clientWidth * 0.86)
-    measure()
-    const ro = new ResizeObserver(measure); ro.observe(el)
-    return () => ro.disconnect()
-  }, [])
+    let raf = 0
+    const onScroll = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const panels = [...el.children] as HTMLElement[]
+        if (!panels.length) return
+        const step = panels[1] ? panels[1].offsetLeft - panels[0].offsetLeft : panels[0].offsetWidth
+        setIndex(Math.max(0, Math.min(count - 1, Math.round(el.scrollLeft / step))))
+      })
+    }
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => { el.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf) }
+  }, [count])
 
-  const step = panelW + gap
-  const minX = -(step * (count - 1))
-  const project = (v: number, d = 0.998) => (v / 1000) * d / (1 - d)
-  const rubber = (over: number, dim: number, c = 0.55) => (over * dim * c) / (dim + c * Math.abs(over))
-
-  const onDrag = (_: unknown, info: PanInfo) => {
-    // 1:1 tracking with progressive resistance past the ends
-    const raw = x.get()
-    if (raw > 0) x.set(rubber(raw, panelW))
-    else if (raw < minX) x.set(minX + rubber(raw - minX, panelW))
-    void info
+  const goTo = (i: number) => {
+    const el = scroller.current
+    const panel = el?.children[i] as HTMLElement | undefined
+    if (!el || !panel) return
+    el.scrollTo({ left: panel.offsetLeft - parseFloat(getComputedStyle(el).paddingLeft || '0'), behavior: 'smooth' })
   }
-  const onDragEnd = (_: unknown, info: PanInfo) => {
-    const current = x.get()
-    const projected = current + project(info.velocity.x)
-    const target = Math.round(Math.min(0, Math.max(minX, projected)) / step) * step
-    setIndex(Math.round(-target / step))
-    animate(x, target, { type: 'spring', bounce: 0.2, duration: 0.4, velocity: info.velocity.x })
-  }
-  const goTo = (i: number) => { const target = -i * step; setIndex(i); animate(x, target, reduce ? { duration: 0 } : { type: 'spring', bounce: 0, duration: 0.4 }) }
 
   return (
     <div>
-      <div ref={viewport} className="overflow-hidden px-5 sm:px-10" onScroll={(e) => { e.currentTarget.scrollLeft = 0 }} onFocus={(e) => { const panels = [...(e.currentTarget.firstElementChild?.children ?? [])]; const i = panels.findIndex((p) => p.contains(e.target as Node)); if (i >= 0 && i !== index) goTo(i) }}>
-        <motion.div
-          drag={reduce ? false : 'x'}
-          dragMomentum={false}
-          dragElastic={0}
-          onDrag={onDrag}
-          onDragEnd={onDragEnd}
-          style={{ x, display: 'flex', gap, touchAction: 'pan-y', cursor: reduce ? 'auto' : 'grab' }}
-          whileTap={reduce ? undefined : { cursor: 'grabbing' }}
-          className="[&>*]:w-[86%] [&>*]:shrink-0"
-        >
-          {children}
-        </motion.div>
+      <div
+        ref={scroller}
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-5 pb-2 sm:px-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:w-[86%] [&>*]:shrink-0 [&>*]:snap-start [&>*]:snap-always"
+        style={{ scrollPaddingLeft: 'var(--rail-pad, 20px)', paddingRight: 'calc(14% + var(--rail-pad, 20px) * 0.72)', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
+        onFocus={(e) => { const panels = [...(e.currentTarget.children)]; const i = panels.findIndex((p) => p.contains(e.target as Node)); if (i >= 0 && i !== index) goTo(i) }}
+      >
+        {children}
       </div>
-      <div className="mt-6 flex items-center justify-center gap-2" role="group" aria-label={t.nav.solutions}>
+      <div className="mt-5 flex items-center justify-center gap-2" role="group" aria-label={t.nav.solutions}>
         {Array.from({ length: count }).map((_, i) => (
-          <button key={i} type="button" role="tab" aria-selected={i === index} aria-label={`${i + 1} / ${count}`} onClick={() => goTo(i)} className={`h-2.5 cursor-pointer rounded-full transition-[width,background-color] duration-300 ${i === index ? 'w-7 bg-navy' : 'w-2.5 bg-fg/25'}`} />
+          <button key={i} type="button" aria-current={i === index} aria-label={`${t.ui.panel} ${i + 1} / ${count}`} onClick={() => goTo(i)} className={`h-2.5 cursor-pointer rounded-full transition-[width,background-color] duration-300 hover:bg-fg/60 ${i === index ? 'w-7 bg-fg' : 'w-2.5 bg-fg/25'}`} />
         ))}
       </div>
     </div>
