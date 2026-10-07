@@ -39,8 +39,8 @@ export function DragRail({ children, count }: { children: ReactNode; count: numb
     <div>
       <div
         ref={scroller}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-5 pb-2 sm:px-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:w-[86%] [&>*]:shrink-0 [&>*]:snap-start [&>*]:snap-always"
-        style={{ scrollPaddingLeft: 'var(--rail-pad, 20px)', paddingRight: 'calc(14% + var(--rail-pad, 20px) * 0.72)', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain px-5 pb-2 sm:px-10 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&>*]:w-[86%] [&>*]:shrink-0 [&>*]:snap-start [&>*]:snap-always after:block after:w-[10%] after:shrink-0 after:content-['']"
+        style={{ scrollPaddingLeft: 'var(--rail-pad, 20px)', paddingRight: 0, WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
         onFocus={(e) => { const panels = [...(e.currentTarget.children)]; const i = panels.findIndex((p) => p.contains(e.target as Node)); if (i >= 0 && i !== index) goTo(i) }}
       >
         {children}
