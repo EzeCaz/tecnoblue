@@ -7,7 +7,7 @@ for (const { route, w, h = 812, fracs, theme = 'light' } of jobs) {
   const page = await browser.newPage();
   await page.setViewport({ width: w, height: h, isMobile: w < 800, hasTouch: w < 800 });
   await page.evaluateOnNewDocument((t) => { try { sessionStorage.setItem('tb-intro','1'); localStorage.setItem('lang','en'); localStorage.setItem('tb-theme', t); } catch {} }, theme);
-  await page.goto('http://localhost:5173' + route, { waitUntil: 'networkidle0' });
+  await page.goto((process.env.BASE || 'http://localhost:5173') + route, { waitUntil: 'networkidle0' });
   await new Promise(r => setTimeout(r, 2500));
   const H = await page.evaluate(() => document.documentElement.scrollHeight);
   for (const f of fracs) {

@@ -95,7 +95,7 @@ function DemoVideo({ label, still, phone }: { label: string; still: boolean; pho
         ? <img src={phone ? '/video/field-demo-m-poster.jpg' : '/video/field-demo-poster.jpg'} alt="" width={phone ? 720 : 720} height={phone ? 900 : 456} className={cn('w-full object-cover', phone ? 'aspect-[4/5]' : 'aspect-[1200/760]')} />
         : <video key={phone ? 'm' : 'd'} ref={ref} src={phone ? '/video/field-demo-m.mp4' : '/video/field-demo.mp4'} poster={phone ? '/video/field-demo-m-poster.jpg' : '/video/field-demo-poster.jpg'} autoPlay muted loop playsInline preload="metadata" className={cn('w-full object-cover', phone ? 'aspect-[4/5]' : 'aspect-[1200/760]')} />}
       {!still && (
-        <button type="button" onClick={toggle} aria-label={playing ? t.ui.pause : t.ui.play} className="glass-dark absolute bottom-4 right-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white transition-[transform,background-color] duration-200 hover:bg-white/20 active:scale-95">
+        <button type="button" onClick={toggle} aria-label={playing ? t.ui.pause : t.ui.play} className={cn('glass-dark absolute bottom-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white transition-[transform,background-color] duration-200 hover:bg-white/20 active:scale-95', phone ? 'left-4' : 'right-4')}>
           {playing ? <Pause className="h-5 w-5" strokeWidth={2} /> : <Play className="ml-0.5 h-5 w-5" strokeWidth={2} />}
         </button>
       )}
