@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react'
+import { Component, Suspense, lazy, useEffect, type ReactNode } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
@@ -32,13 +32,15 @@ const meta = {
 } as const
 
 function ScrollAndMeta() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const { lang } = useLang()
   useEffect(() => {
+    if (hash) { const el = document.getElementById(hash.slice(1)); if (el) { setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80); return } }
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior })
     const map = meta[lang] as Record<string, readonly [string, string]>
     const sol = solutions.find((s) => pathname === `/solutions/${s.id}`)
-    const [title, description] = sol ? [`${sol.name} — Tecno.Blue`, sol.summary[lang]] : pathname === '/privacy' || pathname === '/terms' ? [`${pathname === '/privacy' ? (lang === 'es' ? 'Privacidad' : 'Privacy') : (lang === 'es' ? 'Términos' : 'Terms')} — Tecno.Blue`, map['/'][1]] : (map[pathname] ?? map['/'])
+    const known = ['/', '/about', '/solutions', '/contact']
+    const [title, description] = sol ? [`${sol.name} — Tecno.Blue`, sol.summary[lang]] : pathname === '/privacy' || pathname === '/terms' ? [`${pathname === '/privacy' ? (lang === 'es' ? 'Privacidad' : 'Privacy') : (lang === 'es' ? 'Términos' : 'Terms')} — Tecno.Blue`, map['/'][1]] : known.includes(pathname) ? map[pathname] : [`${lang === 'es' ? 'Página no encontrada' : 'Page not found'} — Tecno.Blue`, map['/'][1]]
     document.title = title
     document.querySelector('meta[name="description"]')?.setAttribute('content', description)
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', title)
@@ -46,12 +48,22 @@ function ScrollAndMeta() {
     let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
     if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical) }
     canonical.href = `${window.location.origin}${pathname}`
-  }, [pathname, lang])
+  }, [pathname, hash, lang])
   return null
 }
 
+class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false }
+  static getDerivedStateFromError() { return { failed: true } }
+  componentDidCatch(err: unknown) { console.error('[tecno.blue] render error', err) }
+  render() {
+    if (this.state.failed) return <div className="wrap py-32 text-center"><h1 className="title text-fg">Something went wrong.</h1><p className="lead mt-4">Reload the page, or write to us if it keeps happening.</p><a href="/" className="mt-8 inline-flex h-12 items-center rounded-full bg-blue px-6 font-bold text-white">Reload</a></div>
+    return this.props.children
+  }
+}
+
 function PageFallback() {
-  return <div className="min-h-[60vh] bg-ground" aria-busy="true" />
+  return <div className="min-h-[60vh] bg-ground" aria-busy="true" aria-live="polite"><span className="sr-only">Loading…</span></div>
 }
 
 export default function App() {
@@ -62,6 +74,7 @@ export default function App() {
       <ScrollProgress />
       <Navbar />
       <main id="main" className="flex-1">
+        <ErrorBoundary>
         <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -74,6 +87,7 @@ export default function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
+        </ErrorBoundary>
       </main>
       <Footer />
       <WhatsAppButton />

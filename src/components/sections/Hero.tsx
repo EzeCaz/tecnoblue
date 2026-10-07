@@ -18,7 +18,7 @@ export function Hero() {
   const reduce = useReducedMotion()
   const { scrollY } = useScroll()
   const copyY = useTransform(scrollY, [0, 600], [0, reduce ? 0 : 120])
-  const copyOpacity = useTransform(scrollY, [0, 500], [1, reduce ? 1 : 0.15])
+  const copyOpacity = useTransform(scrollY, [0, 500], [1, reduce ? 1 : 0.35])
   const item = (delay: number) => reduce ? {} : ({
     initial: { opacity: 0, y: 24, filter: 'blur(6px)' },
     animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
@@ -36,7 +36,7 @@ export function Hero() {
             <span className="relative flex h-5 w-5 items-center justify-center"><span className="absolute inset-0 rounded-full bg-sky animate-breathe motion-reduce:hidden" /><span className="relative h-2 w-2 rounded-full bg-sky" /></span>
             {t.hero.badge}
           </motion.div>
-          <motion.h1 {...item(0.08)} className="display mt-7 text-white">
+          <motion.h1 {...item(0.08)} className="display mt-7 text-white" aria-label={`${t.hero.titleLead} ${t.hero.rotating[0]}`}>
             {t.hero.titleLead}<br />
             <RotatingWords words={t.hero.rotating} className="text-sky" />
           </motion.h1>
@@ -56,7 +56,7 @@ export function Hero() {
           {/* floating chips */}
           <motion.div initial={reduce ? false : { opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ ...springs.enter, delay: 0.7 }} className="glass-dark absolute -left-16 top-16 hidden rounded-2xl p-4 text-white xl:block">
             <div className="text-[11px] font-bold uppercase tracking-wider text-white/75">{t.hero.chip1Label}</div>
-            <div className="mt-1 text-[26px] font-extrabold tracking-[-0.03em]">247 <span className="text-[13px] font-semibold text-green">+12%</span></div>
+            <div className="mt-1 text-[26px] font-extrabold tracking-[-0.03em] tabular-nums">247 <span className="text-[13px] font-semibold text-green">+12%</span></div>
           </motion.div>
           <motion.div initial={reduce ? false : { opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ ...springs.enter, delay: 0.8 }} className="glass-dark absolute -right-16 bottom-20 hidden rounded-2xl p-4 text-white xl:block">
             <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-white/75"><span className="h-2 w-2 rounded-full bg-green" />{t.hero.chip2Label}</div>

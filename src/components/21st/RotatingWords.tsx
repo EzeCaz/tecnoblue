@@ -15,15 +15,15 @@ export function RotatingWords({ words, interval = 2600, className }: { words: re
     const id = window.setTimeout(() => setI((n) => (n + 1) % words.length), interval)
     return () => window.clearTimeout(id)
   }, [i, interval, reduce, words.length])
-  if (reduce) return <span className={className}>{words[0]}</span>
+  if (reduce) return <span className={className} aria-hidden="true">{words[0]}</span>
   return (
-    <span className={cn('relative inline-grid overflow-hidden align-bottom pb-[0.18em] -mb-[0.18em]', className)} aria-live="polite">
+    <span className={cn('relative inline-grid overflow-hidden align-bottom pt-[0.12em] -mt-[0.12em] pb-[0.2em] -mb-[0.2em]', className)} aria-hidden="true">
       {/* sizer keeps the line width stable */}
-      <span className="invisible col-start-1 row-start-1 whitespace-nowrap">{words.reduce((a, b) => (a.length > b.length ? a : b))}</span>
+      <span className="invisible col-start-1 row-start-1 sm:whitespace-nowrap">{words.reduce((a, b) => (a.length > b.length ? a : b))}</span>
       <AnimatePresence initial={false}>
         <motion.span
           key={words[i]}
-          className="col-start-1 row-start-1 whitespace-nowrap"
+          className="col-start-1 row-start-1 sm:whitespace-nowrap"
           initial={{ y: '110%', opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: '-110%', opacity: 0 }}

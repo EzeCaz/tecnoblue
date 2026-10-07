@@ -41,7 +41,7 @@ export function Navbar() {
   ]
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 sm:pt-5">
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:pt-5">
       <a href="#main" className="sr-only focus:not-sr-only focus:pointer-events-auto focus:absolute focus:left-4 focus:top-4 focus:rounded-full focus:bg-navy focus:px-4 focus:py-2 focus:text-white">{t.nav.skip}</a>
       <motion.header
         layout
@@ -57,7 +57,7 @@ export function Navbar() {
           ))}
         </nav>
         <div className="hidden items-center gap-2 md:flex">
-          <ThemeToggle dark={onDark} />
+          <span className="hidden lg:inline-flex"><ThemeToggle dark={onDark} /></span>
           <LanguageToggle dark={onDark} />
           <ButtonLink to="/contact" size="sm">{t.nav.cta}</ButtonLink>
         </div>
@@ -77,7 +77,7 @@ export function Navbar() {
             exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
             transition={springs.sheet}
             style={{ transformOrigin: 'top center' }}
-            className="glass pointer-events-auto absolute inset-x-4 top-[88px] rounded-[28px] p-4 text-fg shadow-float md:hidden"
+            className="glass pointer-events-auto absolute inset-x-4 top-[88px] max-h-[calc(100dvh-104px)] overflow-y-auto overscroll-contain rounded-[28px] p-4 text-fg shadow-float md:hidden"
           >
             <nav aria-label="Mobile" className="flex flex-col">
               {[{ to: '/', label: t.nav.home }, ...links].map((l, i) => (

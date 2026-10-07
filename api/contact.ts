@@ -12,8 +12,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Cache-Control', 'no-store')
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' })
   if (!String(req.headers['content-type'] ?? '').includes('application/json')) return res.status(415).json({ ok: false, error: 'Expected JSON' })
+  if (Number(req.headers['content-length'] ?? 0) > 20_000) return res.status(413).json({ ok: false, error: 'Message too large' })
   const ip = String(req.headers['x-forwarded-for'] ?? '').split(',')[0].trim() || 'unknown'
   const now = Date.now()
+  if (hits.size > 5000) hits.clear()
   const recent = (hits.get(ip) ?? []).filter((t) => now - t < 10 * 60 * 1000)
   if (recent.length >= 5) return res.status(429).json({ ok: false, error: 'Too many messages, please try again later' })
   hits.set(ip, [...recent, now])
@@ -40,7 +42,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: process.env.CONTACT_FROM ?? 'Tecno.Blue <onboarding@resend.dev>', to: [to], reply_to: email, subject: subject ? `Website contact about ${subject}: ${name}` : `Website contact: ${name}`, html }),
+    body: JSON.stringify({ from: process.env.CONTACT_FROM ?? 'Tecno.Blue <onboarding@resend.dev>', to: [to], reply_to: email, subject: (subject ? `Website contact about ${subject}: ${name}` : `Website contact: ${name}`).replace(/[\r\n]+/g, ' '), html }),
   })
   if (!r.ok) return res.status(502).json({ ok: false, error: 'Email provider error' })
   return res.status(200).json({ ok: true })

@@ -28,7 +28,7 @@ export function SolutionDetail() {
         <div className="wrap relative z-10 grid gap-12 pb-28 pt-36 lg:grid-cols-[1fr_1fr] lg:items-center lg:pt-44">
           <div>
             <Link to="/solutions" className="inline-flex items-center gap-2 text-[14px] font-semibold text-white/70 transition-colors hover:text-white"><ArrowLeft className="h-4 w-4" strokeWidth={2.5} />{t.detail.back}</Link>
-            <div className="mt-8 inline-flex rounded-2xl bg-white px-4 py-3"><img src={s.logo} alt={s.name} className={cn('w-auto max-w-[200px] object-contain', s.logoClass)} /></div>
+            <div className="mt-8 inline-flex rounded-2xl bg-white px-4 py-3"><img src={s.logo} alt={s.name} width={200} height={48} fetchPriority="high" className={cn('w-auto max-w-[200px] object-contain', s.logoClass)} /></div>
             <p className="mt-6 text-[14px] font-bold text-sky">{s.tag[lang]}</p>
             <SplitReveal as="h1" text={s.name} className="display block text-white" stagger={0.08} />
             <p className="lead mt-6 max-w-[52ch] text-white/75">{s.summary[lang]}</p>

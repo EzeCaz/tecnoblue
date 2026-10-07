@@ -21,6 +21,7 @@
   --color-muted: #7b879a;
   --color-green: var(--green);
   --color-accent: var(--accent);
+  --color-danger: var(--danger);
   --color-green-soft: var(--green-soft);
 
   --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
@@ -40,18 +41,23 @@
 
 @layer base {
   :root {
-    --surface: #ffffff; --ground: #f3f6fb; --fg: #0b1f3a; --fg-2: #4a5a75; --fg-3: #5c6880; --line: #dfe6ef; --green: #127543; --green-soft: #e3f5ec; --accent: #0977bc;
+    --surface: #ffffff; --ground: #f3f6fb; --fg: #0b1f3a; --fg-2: #4a5a75; --fg-3: #5c6880; --line: #dfe6ef; --green: #127543; --green-soft: #e3f5ec; --accent: #0977bc; --danger: #c81e1e;
     --shadow-soft: var(--shadow-soft);
   }
   :root[data-theme="dark"] {
-    --surface: #0f1a30; --ground: #0a1427; --fg: #eef3fa; --fg-2: #b7c2d3; --fg-3: #8a97ab; --line: rgb(255 255 255 / 0.1); --green: #36d399; --green-soft: rgb(54 211 153 / 0.14); --accent: #6cc3ee;
+    --surface: #0f1a30; --ground: #0a1427; --fg: #eef3fa; --fg-2: #b7c2d3; --fg-3: #8a97ab; --line: rgb(255 255 255 / 0.1); --green: #36d399; --green-soft: rgb(54 211 153 / 0.14); --accent: #6cc3ee; --danger: #ff7b7b;
     --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.3), 0 16px 40px -24px rgb(0 0 0 / 0.6);
   }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  html { scroll-behavior: smooth; scroll-padding-top: 96px; -webkit-text-size-adjust: 100%; overflow-x: clip; }
+  body { overflow-x: clip; }
+  :root[data-theme="dark"] { color-scheme: dark; }
+  a, button, [role="button"], input, select, textarea { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  select { background-color: var(--surface); color: var(--fg); }
   body { @apply bg-ground text-fg font-sans antialiased; transition: background-color 0.4s ease, color 0.4s ease; font-size: 17px; line-height: 1.5; font-optical-sizing: auto; }
   h1, h2, h3 { text-wrap: balance; }
   p { text-wrap: pretty; }
-  :focus-visible { outline: none; box-shadow: 0 0 0 4px rgb(68 180 230 / 0.55); border-radius: 10px; }
+  :focus-visible { outline: 2px solid transparent; outline-offset: 2px; box-shadow: 0 0 0 4px rgb(68 180 230 / 0.55); border-radius: 10px; }
+  @media (forced-colors: active) { :focus-visible { outline-color: Highlight; } }
   ::selection { background: rgb(68 180 230 / 0.35); }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -67,7 +73,7 @@
 @layer utilities {
   .wrap { @apply mx-auto w-full max-w-[1280px] px-5 sm:px-10; }
   .wrap-text { @apply mx-auto w-full max-w-[860px] px-5 sm:px-10; }
-  .display { @apply text-[42px] font-extrabold leading-[1.02] tracking-[-0.035em] sm:text-[64px] lg:text-[76px]; }
+  .display { @apply text-[38px] font-extrabold leading-[1.04] tracking-[-0.035em] sm:text-[64px] lg:text-[76px]; }
   .title { @apply text-[32px] font-extrabold leading-[1.08] tracking-[-0.025em] sm:text-[44px] lg:text-[52px]; }
   .title-sm { @apply text-[24px] font-bold leading-[1.15] tracking-[-0.015em] sm:text-[28px]; }
   .lead { @apply text-[18px] leading-[1.55] text-fg-2 sm:text-[20px]; }

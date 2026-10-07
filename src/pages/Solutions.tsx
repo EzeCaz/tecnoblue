@@ -29,7 +29,7 @@ export function Solutions() {
                   <p className="lead mt-3">{s.summary[lang]}</p>
                   <span className="mt-6 inline-flex h-11 items-center rounded-full bg-blue px-5 text-[14px] font-bold text-white">{t.solutions.learn}</span>
                 </div>
-                <MiniUI id={s.id} />
+                <div aria-hidden="true"><MiniUI id={s.id} /></div>
               </Link>
             </TiltCard>
           </Reveal>

@@ -32,7 +32,7 @@ export function Intro() {
             <img src="/images/logo-mark.png" alt="" width={56} height={56} className="h-14 w-14" />
             <motion.span initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35, duration: 0.5 }} className="text-[34px] font-extrabold tracking-[-0.03em] text-white">tecno<span className="text-sky">.</span>blue</motion.span>
           </motion.div>
-          <motion.div className="absolute bottom-0 left-0 h-[2px] bg-sky" initial={{ width: 0 }} animate={{ width: '100%' }} transition={{ duration: 1.3, ease: 'linear' }} />
+          <motion.div className="absolute bottom-0 left-0 h-[2px] w-full origin-left bg-sky" initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.3, ease: 'linear' }} />
         </motion.div>
       )}
     </AnimatePresence>

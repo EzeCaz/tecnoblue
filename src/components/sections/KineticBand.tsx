@@ -32,7 +32,7 @@ export function KineticBand({ words }: { words: readonly string[] }) {
   return (
     <div className="overflow-hidden bg-ink py-7 text-white" aria-label={words.join(', ')} role="marquee">
       <motion.div ref={ref} style={{ x }} className="flex w-max gap-10 whitespace-nowrap text-[40px] font-extrabold tracking-[-0.03em] sm:text-[56px]">
-        {line}{line}
+        {line}<span aria-hidden="true" className="contents">{line}</span>
       </motion.div>
     </div>
   )

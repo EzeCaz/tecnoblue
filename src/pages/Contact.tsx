@@ -5,6 +5,7 @@ import { PageHero } from '@/components/ui/PageHero'
 import { Button } from '@/components/ui/Button'
 import { countryCodes } from '@/lib/countries'
 import { cn } from '@/lib/cn'
+import { site } from '@/config/site'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 type Errors = Partial<Record<'name' | 'email' | 'message', string>>
@@ -46,7 +47,7 @@ export function Contact({ subject }: { subject?: string } = {}) {
         if (!res.ok) throw new Error(String(res.status))
       } else {
         await new Promise((r) => setTimeout(r, 700))
-        console.info('[contact] no VITE_CONTACT_ENDPOINT set; payload:', data)
+        console.info('[contact] no endpoint configured; simulated send')
       }
       setStatus('sent')
       form.reset()
@@ -55,7 +56,7 @@ export function Contact({ subject }: { subject?: string } = {}) {
     }
   }
 
-  const err = (k: keyof Errors) => errors[k] && <p id={`${k}-error`} className="mt-1.5 text-[14px] text-[#d70015]">{errors[k]}</p>
+  const err = (k: keyof Errors) => errors[k] && <p id={`${k}-error`} className="mt-1.5 text-[14px] text-danger">{errors[k]}</p>
 
   return (
     <>
@@ -76,25 +77,25 @@ export function Contact({ subject }: { subject?: string } = {}) {
                 <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 opacity-0" />
                 <div className="sm:col-span-2">
                   <label htmlFor="name" className={label}>{t.contact.name}</label>
-                  <input id="name" name="name" autoComplete="name" required aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} className={cn(field, errors.name && 'border-[#d70015]')} />
+                  <input id="name" name="name" autoComplete="name" maxLength={120} required aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} className={cn(field, errors.name && 'border-danger')} />
                   {err('name')}
                 </div>
                 <div>
-                  <label htmlFor="company" className={label}>{t.contact.company}</label>
-                  <input id="company" name="company" autoComplete="organization" className={field} />
+                  <label htmlFor="company" className={label}>{t.contact.company} <span className="font-medium text-fg-3">· {t.contact.optional}</span></label>
+                  <input id="company" name="company" autoComplete="organization" maxLength={120} className={field} />
                 </div>
                 <div>
                   <label htmlFor="role" className={label}>{t.contact.role} <span className="font-medium text-fg-3">· {t.contact.optional}</span></label>
-                  <input id="role" name="role" autoComplete="organization-title" className={field} />
+                  <input id="role" name="role" autoComplete="organization-title" maxLength={120} className={field} />
                 </div>
                 <div>
                   <label htmlFor="email" className={label}>{t.contact.email}</label>
-                  <input id="email" name="email" type="email" autoComplete="email" required aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} className={cn(field, errors.email && 'border-[#d70015]')} />
+                  <input id="email" name="email" type="email" inputMode="email" autoComplete="email" autoCapitalize="none" spellCheck={false} maxLength={160} required aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} className={cn(field, errors.email && 'border-danger')} />
                   {err('email')}
                 </div>
                 <div>
                   <label htmlFor="phone" className={label}>{t.contact.phone} <span className="font-medium text-fg-3">· {t.contact.optional}</span></label>
-                  <input id="phone" name="phone" type="tel" autoComplete="tel" className={field} />
+                  <input id="phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" maxLength={40} className={field} />
                 </div>
                 <div>
                   <label htmlFor="country" className={label}>{t.contact.country}</label>
@@ -112,11 +113,11 @@ export function Contact({ subject }: { subject?: string } = {}) {
                 </div>
                 <div className="sm:col-span-2">
                   <label htmlFor="message" className={label}>{t.contact.message}</label>
-                  <textarea id="message" name="message" rows={5} required placeholder={t.contact.messagePlaceholder} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} className={cn(field, 'h-auto resize-y py-4', errors.message && 'border-[#d70015]')} />
+                  <textarea id="message" name="message" rows={5} maxLength={4000} required placeholder={t.contact.messagePlaceholder} aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined} className={cn(field, 'h-auto resize-y py-4', errors.message && 'border-danger')} />
                   {err('message')}
                 </div>
                 {status === 'error' && (
-                  <p role="alert" className="flex items-center gap-2 text-[14px] text-[#d70015] sm:col-span-2"><AlertCircle aria-hidden="true" className="h-4 w-4" />{t.contact.errorBody}</p>
+                  <p role="alert" className="flex items-center gap-2 text-[14px] text-danger sm:col-span-2"><AlertCircle aria-hidden="true" className="h-4 w-4" />{t.contact.errorBody}</p>
                 )}
                 <div className="sm:col-span-2">
                   <Button type="submit" size="lg" icon disabled={status === 'sending'} aria-busy={status === 'sending'}>
@@ -130,11 +131,11 @@ export function Contact({ subject }: { subject?: string } = {}) {
           <div aria-labelledby="office-title">
             <h2 id="office-title" className="title-sm text-fg">{t.contact.office}</h2>
             <address className="mt-3 text-[16px] not-italic leading-relaxed text-fg-2">
-              250 NW 136th Ave, Suite 113<br />Pembroke Pines, FL 33028<br />United States
+              {site.address.line1}<br />{site.address.line2}<br />{site.address.country[lang]}
             </address>
             <div className="mt-6 overflow-hidden rounded-[24px] shadow-soft ring-1 ring-line">
               {mapOn ? (
-                <iframe title="Tecno.Blue office location" src="https://www.google.com/maps?q=250+NW+136th+Ave+Suite+113+Pembroke+Pines+FL+33028&output=embed" width="100%" height="280" loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="block" />
+                <iframe title={t.contact.mapTitle} src="https://www.google.com/maps?q=250+NW+136th+Ave+Suite+113+Pembroke+Pines+FL+33028&output=embed" width="100%" height="280" loading="lazy" referrerPolicy="strict-origin" className="block" />
               ) : (
                 <div className="relative flex h-[280px] flex-col items-center justify-center gap-3 bg-ground p-6 text-center" style={{ backgroundImage: 'radial-gradient(rgb(11 31 58 / 0.12) 1px, transparent 1px)', backgroundSize: '18px 18px' }}>
                   <MapPin aria-hidden="true" className="h-8 w-8 text-accent" strokeWidth={1.75} />

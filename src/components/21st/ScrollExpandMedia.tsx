@@ -15,11 +15,11 @@ export function ScrollExpandMedia({ src, poster, mediaType = 'image', title, kic
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
   const width = useTransform(scrollYProgress, [0, 0.7], ['38%', '100%'])
-  const height = useTransform(scrollYProgress, [0, 0.7], ['46vh', '100vh'])
+  const height = useTransform(scrollYProgress, [0, 0.7], ['46dvh', '100dvh'])
   const radius = useTransform(scrollYProgress, [0, 0.7], ['28px', '0px'])
   const spread = useTransform(scrollYProgress, [0, 0.6], [0, 1])
-  const leftX = useTransform(spread, [0, 1], ['0%', '-60%'])
-  const rightX = useTransform(spread, [0, 1], ['0%', '60%'])
+  const leftX = useTransform(spread, [0, 1], ['0%', '-35%'])
+  const rightX = useTransform(spread, [0, 1], ['0%', '35%'])
   const titleOpacity = useTransform(scrollYProgress, [0.55, 0.8], [1, 0])
   const bodyOpacity = useTransform(scrollYProgress, [0.75, 0.95], [0, 1])
   const bodyY = useTransform(scrollYProgress, [0.75, 0.95], [40, 0])
@@ -35,11 +35,11 @@ export function ScrollExpandMedia({ src, poster, mediaType = 'image', title, kic
 
   return (
     <section ref={ref} className={cn('relative h-[260vh] bg-ink text-white', className)}>
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
+      <div className="sticky top-0 flex h-dvh items-center justify-center overflow-hidden">
         <motion.div style={{ width, height, borderRadius: radius }} className="relative z-10 overflow-hidden shadow-float">
           {mediaType === 'video'
             ? <video src={src} poster={poster} muted loop playsInline autoPlay className="h-full w-full object-cover" />
-            : <img src={src} alt="" className="h-full w-full object-cover" />}
+            : <img src={src} alt="" width={1200} height={667} className="h-full w-full object-cover" />}
           <div aria-hidden="true" className="absolute inset-0 bg-ink/20" />
         </motion.div>
         <motion.div style={{ opacity: titleOpacity }} className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center text-center mix-blend-screen">

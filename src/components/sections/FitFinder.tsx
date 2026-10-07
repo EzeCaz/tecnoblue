@@ -31,7 +31,7 @@ export function FitFinder() {
     <section aria-labelledby="fit-title" className="bg-surface">
       <div className="wrap py-24 sm:py-32">
         <Reveal className="max-w-[720px]"><SplitReveal id="fit-title" as="h2" text={t.fit.title} className="title block text-fg" /><p className="lead mt-4">{t.fit.lead}</p></Reveal>
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-16">
           <div>
             <p className="text-[12px] font-bold uppercase tracking-wider text-fg-3">{t.fit.pickLabel}</p>
             <div className="mt-4 flex flex-wrap gap-2.5" role="group" aria-label={t.fit.pickLabel}>
@@ -45,16 +45,16 @@ export function FitFinder() {
                     aria-pressed={on}
                     whileTap={reduce ? undefined : { scale: 0.96 }}
                     transition={springs.quick}
-                    className={cn('inline-flex h-11 cursor-pointer items-center gap-2 rounded-full px-4 text-[14px] font-semibold ring-1 transition-colors duration-200', on ? 'bg-navy text-white ring-navy' : 'bg-ground text-fg ring-line hover:ring-blue/50')}
+                    className={cn('inline-flex min-h-11 max-w-full cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-left text-[14px] font-semibold ring-1 transition-colors duration-200', on ? 'bg-navy text-white ring-navy' : 'bg-ground text-fg ring-line hover:ring-blue/50')}
                   >
-                    <span className={cn('flex h-5 w-5 items-center justify-center rounded-full transition-colors', on ? 'bg-sky text-fg' : 'bg-surface ring-1 ring-line')}>{on && <Check className="h-3 w-3" strokeWidth={3} />}</span>
+                    <span className={cn('flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-colors', on ? 'bg-sky text-fg' : 'bg-surface ring-1 ring-line')}>{on && <Check className="h-3 w-3" strokeWidth={3} />}</span>
                     {n.label}
                   </motion.button>
                 )
               })}
             </div>
             <AnimatePresence mode="wait">
-              <motion.p key={top ? top.id : 'none'} initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? undefined : { opacity: 0, y: -8 }} transition={springs.default} className="mt-8 max-w-[44ch] text-[17px] leading-relaxed text-fg-2">
+              <motion.p key={top ? top.id : 'none'} initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? undefined : { opacity: 0, y: -8 }} transition={springs.default} role="status" aria-live="polite" className="mt-8 max-w-[44ch] text-[17px] leading-relaxed text-fg-2">
                 {top ? t.fit.result.replace('{name}', top.name) : anyPicked ? t.fit.noMatch : t.fit.empty}
               </motion.p>
             </AnimatePresence>

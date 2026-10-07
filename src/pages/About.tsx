@@ -28,7 +28,7 @@ export function About() {
         <p className="mx-auto max-w-[60ch] text-center text-[19px] leading-relaxed text-white/80 sm:text-[22px]">{t.about.p1}</p>
       </ScrollExpandMedia>
       <section className="bg-ground"><div className="wrap grid gap-10 py-20 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-        <Reveal><p className="text-[26px] font-bold leading-snug tracking-[-0.02em] text-fg sm:text-[32px]">{t.about.p1}</p><p className="lead mt-6">{t.about.p2}</p></Reveal>
+        <Reveal><p className="text-[26px] font-bold leading-snug tracking-[-0.02em] text-fg sm:text-[32px]">{t.about.p2}</p></Reveal>
         <Reveal delay={0.08}><div className="rounded-[28px] bg-surface p-7 shadow-soft ring-1 ring-line"><h2 className="title-sm text-fg">{t.about.valuesTitle}</h2><ul className="mt-5 divide-y divide-line">{t.about.values.map((v) => <li key={v.title} className="py-4 first:pt-0 last:pb-0"><div className="text-[15px] font-extrabold text-accent">{v.title}</div><p className="mt-1 text-[15px] leading-relaxed text-fg-2">{v.body}</p></li>)}</ul></div></Reveal>
       </div></section>
       {site.team.length > 0 && (

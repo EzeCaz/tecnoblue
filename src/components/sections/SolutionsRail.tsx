@@ -46,7 +46,7 @@ export function SolutionsRail() {
       return () => { tween.scrollTrigger?.kill(); tween.kill(); st.kill() }
     })
     return () => mm.revert()
-  }, [pinned])
+  }, [pinned, lang])
 
   return (
     <section ref={section} aria-labelledby="solutions-title" className="relative overflow-hidden bg-ground">
@@ -58,11 +58,11 @@ export function SolutionsRail() {
         <div className="mt-8 hidden h-1 w-full overflow-hidden rounded-full bg-fg/10 lg:block"><div data-progress className="h-full w-full origin-left bg-blue" style={{ transform: 'scaleX(0)' }} /></div>
       </div>
       {pinned ? (
-        <div ref={track} className="mt-8 flex w-max flex-row gap-6 pb-24 pl-[max(1.25rem,calc((100vw-1280px)/2+2.5rem))] pr-24">
+        <div ref={track} className="mt-8 flex w-max flex-row gap-6 pb-24 pl-[max(1.25rem,calc((100vw-1280px)/2+2.5rem))] pr-24" onFocus={(e) => { const s = section.current; const tr = track.current; if (!s || !tr) return; s.scrollLeft = 0; const panels = [...tr.children]; const i = panels.findIndex((p) => p.contains(e.target as Node)); if (i < 0) return; const st = ScrollTrigger.getAll().find((x) => x.trigger === s); if (st) window.scrollTo({ top: st.start + (st.end - st.start) * (i / Math.max(1, panels.length - 1)), behavior: 'smooth' }) }}>
           {solutions.map((s, i) => (
           <article key={s.id} id={`rail-${s.id}`} className={cn('grid shrink-0 gap-8 rounded-[32px] bg-surface p-7 shadow-soft ring-1 ring-line sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center', pinned && 'lg:w-[920px]')}>
             <div>
-              <div className="flex items-center justify-between"><img src={s.logo} alt={s.name} className={cn('w-auto max-w-[180px] rounded-lg object-contain dark:bg-white dark:px-2 dark:py-1', s.logoClass)} /><span className="rounded-full bg-fg/[0.06] px-3 py-1 text-[12px] font-bold text-fg-2">{String(i + 1).padStart(2, '0')} / {String(solutions.length).padStart(2, '0')}</span></div>
+              <div className="flex items-center justify-between"><img src={s.logo} alt={s.name} width={180} height={44} loading="lazy" className={cn('w-auto max-w-[180px] rounded-lg object-contain dark:bg-white dark:px-2 dark:py-1', s.logoClass)} /><span className="rounded-full bg-fg/[0.06] px-3 py-1 text-[12px] font-bold text-fg-2">{String(i + 1).padStart(2, '0')} / {String(solutions.length).padStart(2, '0')}</span></div>
               <p className="mt-8 text-[13px] font-bold text-accent">{s.tag[lang]}</p>
               <h3 className="title-sm mt-1 text-fg">{s.name}</h3>
               <p className="mt-3 text-[16px] leading-relaxed text-fg-2">{s.summary[lang]}</p>
@@ -79,7 +79,7 @@ export function SolutionsRail() {
             {solutions.map((s, i) => (
           <article key={s.id} id={`rail-${s.id}`} className={cn('grid shrink-0 gap-8 rounded-[32px] bg-surface p-7 shadow-soft ring-1 ring-line sm:p-10 lg:grid-cols-[1fr_1.1fr] lg:items-center', pinned && 'lg:w-[920px]')}>
             <div>
-              <div className="flex items-center justify-between"><img src={s.logo} alt={s.name} className={cn('w-auto max-w-[180px] rounded-lg object-contain dark:bg-white dark:px-2 dark:py-1', s.logoClass)} /><span className="rounded-full bg-fg/[0.06] px-3 py-1 text-[12px] font-bold text-fg-2">{String(i + 1).padStart(2, '0')} / {String(solutions.length).padStart(2, '0')}</span></div>
+              <div className="flex items-center justify-between"><img src={s.logo} alt={s.name} width={180} height={44} loading="lazy" className={cn('w-auto max-w-[180px] rounded-lg object-contain dark:bg-white dark:px-2 dark:py-1', s.logoClass)} /><span className="rounded-full bg-fg/[0.06] px-3 py-1 text-[12px] font-bold text-fg-2">{String(i + 1).padStart(2, '0')} / {String(solutions.length).padStart(2, '0')}</span></div>
               <p className="mt-8 text-[13px] font-bold text-accent">{s.tag[lang]}</p>
               <h3 className="title-sm mt-1 text-fg">{s.name}</h3>
               <p className="mt-3 text-[16px] leading-relaxed text-fg-2">{s.summary[lang]}</p>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { motion, useMotionValue, animate, type PanInfo } from 'framer-motion'
 import { useReducedMotion } from '@/lib/motion'
+import { useLang } from '@/i18n/LanguageContext'
 
 /**
  * Touch/narrow-screen carousel with Apple-style physics: 1:1 drag, momentum projection on release
@@ -9,6 +10,7 @@ import { useReducedMotion } from '@/lib/motion'
  */
 export function DragRail({ children, count, gap = 20 }: { children: ReactNode; count: number; gap?: number }) {
   const reduce = useReducedMotion()
+  const { t } = useLang()
   const viewport = useRef<HTMLDivElement>(null)
   const x = useMotionValue(0)
   const [panelW, setPanelW] = useState(0)
@@ -46,7 +48,7 @@ export function DragRail({ children, count, gap = 20 }: { children: ReactNode; c
 
   return (
     <div>
-      <div ref={viewport} className="overflow-hidden px-5 sm:px-10">
+      <div ref={viewport} className="overflow-hidden px-5 sm:px-10" onScroll={(e) => { e.currentTarget.scrollLeft = 0 }} onFocus={(e) => { const panels = [...(e.currentTarget.firstElementChild?.children ?? [])]; const i = panels.findIndex((p) => p.contains(e.target as Node)); if (i >= 0 && i !== index) goTo(i) }}>
         <motion.div
           drag={reduce ? false : 'x'}
           dragMomentum={false}
@@ -60,7 +62,7 @@ export function DragRail({ children, count, gap = 20 }: { children: ReactNode; c
           {children}
         </motion.div>
       </div>
-      <div className="mt-6 flex items-center justify-center gap-2" role="tablist" aria-label="Solutions">
+      <div className="mt-6 flex items-center justify-center gap-2" role="group" aria-label={t.nav.solutions}>
         {Array.from({ length: count }).map((_, i) => (
           <button key={i} type="button" role="tab" aria-selected={i === index} aria-label={`${i + 1} / ${count}`} onClick={() => goTo(i)} className={`h-2.5 cursor-pointer rounded-full transition-[width,background-color] duration-300 ${i === index ? 'w-7 bg-navy' : 'w-2.5 bg-fg/25'}`} />
         ))}

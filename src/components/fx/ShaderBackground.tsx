@@ -55,8 +55,10 @@ export function ShaderBackground({ className }: { className?: string }) {
   useEffect(() => {
     const host = ref.current
     if (!host) return
-    const renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio, 1.5), alpha: false, antialias: false })
+    let renderer: Renderer
+    try { renderer = new Renderer({ dpr: Math.min(window.devicePixelRatio, 1.5), alpha: false, antialias: false }) } catch { return }
     const gl = renderer.gl
+    if (!gl) return
     gl.canvas.style.position = 'absolute'
     gl.canvas.style.inset = '0'
     gl.canvas.style.width = '100%'

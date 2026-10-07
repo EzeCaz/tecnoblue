@@ -3,11 +3,13 @@ import { Player, type PlayerRef } from '@remotion/player'
 import { Pause, Play } from 'lucide-react'
 import { FieldDemo, DEMO_DURATION, DEMO_FPS, DEMO_HEIGHT, DEMO_WIDTH } from '@/video/FieldDemo'
 import { useReducedMotion } from '@/lib/motion'
+import { useLang } from '@/i18n/LanguageContext'
 import { cn } from '@/lib/cn'
 
 /** The Remotion composition played inline. Autoplays and loops; a still frame under reduced motion. */
 export function DemoPlayer({ className, label }: { className?: string; label: string }) {
   const reduce = useReducedMotion()
+  const { t } = useLang()
   const ref = useRef<PlayerRef>(null)
   const [playing, setPlaying] = useState(!reduce)
 
@@ -42,8 +44,8 @@ export function DemoPlayer({ className, label }: { className?: string; label: st
       <button
         type="button"
         onClick={toggle}
-        aria-label={playing ? 'Pause demo' : 'Play demo'}
-        className="glass-dark absolute bottom-4 right-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white transition-[transform,opacity] duration-200 active:scale-95"
+        aria-label={playing ? t.ui.pause : t.ui.play}
+        className="glass-dark absolute bottom-4 right-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-white transition-[transform,opacity,background-color] duration-200 hover:bg-white/20 active:scale-95"
       >
         {playing ? <Pause className="h-5 w-5" strokeWidth={2} /> : <Play className="ml-0.5 h-5 w-5" strokeWidth={2} />}
       </button>

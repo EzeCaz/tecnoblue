@@ -11,7 +11,7 @@ export function Testimonials() {
       <div className="wrap py-24 sm:py-32">
         <Reveal className="text-center"><h2 id="testimonials-title" className="title text-fg">{t.testimonials.title}</h2></Reveal>
       </div>
-      <Reveal className="-mt-12 pb-24 sm:-mt-16"><InfiniteMovingCards items={[...items, ...items]} speed="normal" /></Reveal>
+      <Reveal className="-mt-12 pb-24 sm:-mt-16"><InfiniteMovingCards items={items} speed="normal" /></Reveal>
     </section>
   )
 }

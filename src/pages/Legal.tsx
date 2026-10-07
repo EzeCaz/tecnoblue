@@ -7,23 +7,23 @@ import { site } from '@/config/site'
  */
 const privacy = {
   en: [
-    ['Who we are', `${site.legalName} ("Tecno.Blue", "we") operates tecno.blue. Our office is at ${site.address.line1}, ${site.address.line2}, ${site.address.country.en}.`],
+    ['Who we are', `${site.legalName} (“Tecno.Blue”, “we”) operates tecno.blue. Our office is at ${site.address.line1}, ${site.address.line2}, ${site.address.country.en}.`],
     ['What we collect', 'When you use the contact form we collect the details you enter: name, company, role, email, phone, country, how you heard about us and your message. We also receive standard technical data such as IP address, browser type and the pages you visit, through our hosting provider.'],
     ['Why we use it', 'To answer your enquiry, to prepare a proposal and to keep in touch about the solutions you asked about. We do not sell your data and we do not use it for automated decisions.'],
     ['Who processes it', 'Our website is hosted by Vercel Inc. and form messages are delivered by Resend Inc.; both act as processors under their own terms. We may share your details with the technology partner whose platform you enquired about, only to answer that enquiry.'],
     ['How long we keep it', 'Enquiries are kept for as long as needed to follow up and for a maximum of [24 months] after our last contact, unless a contract follows.'],
     ['Your rights', 'You may ask us to access, correct or delete your personal data, or to stop contacting you, at any time by writing to [privacy email]. If you are in the EU/EEA, UK or a jurisdiction with equivalent rights, you may also lodge a complaint with your supervisory authority.'],
-    ['Cookies and third parties', 'The site uses no advertising or tracking cookies and no analytics. Your language and appearance preferences are stored in your browser only. Fonts are served from our own domain. The office map is loaded from Google Maps only after you press "Show map"; at that point Google receives your IP address under its own privacy policy.'],
+    ['Cookies and third parties', 'The site uses no advertising or tracking cookies and no analytics. Your language and appearance preferences are stored in your browser only. Fonts are served from our own domain. The office map is loaded from Google Maps only after you press “Show map”; at that point Google receives your IP address under its own privacy policy.'],
     ['Changes', 'We may update this policy; the date below reflects the latest version.'],
   ],
   es: [
-    ['Quiénes somos', `${site.legalName} ("Tecno.Blue", "nosotros") opera tecno.blue. Nuestra oficina está en ${site.address.line1}, ${site.address.line2}, ${site.address.country.es}.`],
+    ['Quiénes somos', `${site.legalName} (“Tecno.Blue”, “nosotros”) opera tecno.blue. Nuestra oficina está en ${site.address.line1}, ${site.address.line2}, ${site.address.country.es}.`],
     ['Qué recopilamos', 'Cuando usas el formulario de contacto recopilamos los datos que ingresas: nombre, empresa, cargo, correo, teléfono, país, cómo nos conociste y tu mensaje. También recibimos datos técnicos habituales, como dirección IP, tipo de navegador y páginas visitadas, a través de nuestro proveedor de alojamiento.'],
     ['Para qué los usamos', 'Para responder tu consulta, preparar una propuesta y mantener el contacto sobre las soluciones que solicitaste. No vendemos tus datos ni los usamos para decisiones automatizadas.'],
     ['Quién los procesa', 'El sitio está alojado en Vercel Inc. y los mensajes del formulario se entregan mediante Resend Inc.; ambos actúan como encargados bajo sus propios términos. Podemos compartir tus datos con el socio tecnológico cuya plataforma consultaste, únicamente para responder esa consulta.'],
     ['Cuánto tiempo los conservamos', 'Las consultas se conservan el tiempo necesario para dar seguimiento y como máximo [24 meses] desde el último contacto, salvo que se formalice un contrato.'],
     ['Tus derechos', 'Puedes solicitar acceso, corrección o eliminación de tus datos personales, o pedir que dejemos de contactarte, escribiendo a [correo de privacidad]. Si estás en la UE/EEE, el Reino Unido o una jurisdicción con derechos equivalentes, también puedes presentar una reclamación ante tu autoridad de control.'],
-    ['Cookies y terceros', 'El sitio no usa cookies publicitarias ni de seguimiento, ni analítica. Tus preferencias de idioma y apariencia se guardan solo en tu navegador. Las fuentes se sirven desde nuestro propio dominio. El mapa de la oficina se carga desde Google Maps solo después de pulsar "Mostrar mapa"; en ese momento Google recibe tu dirección IP bajo su propia política de privacidad.'],
+    ['Cookies y terceros', 'El sitio no usa cookies publicitarias ni de seguimiento, ni analítica. Tus preferencias de idioma y apariencia se guardan solo en tu navegador. Las fuentes se sirven desde nuestro propio dominio. El mapa de la oficina se carga desde Google Maps solo después de pulsar “Mostrar mapa”; en ese momento Google recibe tu dirección IP bajo su propia política de privacidad.'],
     ['Cambios', 'Podemos actualizar esta política; la fecha indicada abajo corresponde a la versión más reciente.'],
   ],
 }
@@ -54,7 +54,7 @@ export function Legal({ kind }: { kind: 'privacy' | 'terms' }) {
     <section className="bg-ground">
       <div className="wrap-text pb-24 pt-36 sm:pt-44">
         <h1 className="title text-fg">{title}</h1>
-        <p className="mt-3 text-[14px] text-fg-3">{lang === 'es' ? 'Última actualización' : 'Last updated'}: 2026-10-06</p>
+        <p className="mt-3 text-[14px] text-fg-3">{lang === 'es' ? 'Última actualización' : 'Last updated'}: {new Intl.DateTimeFormat(lang, { dateStyle: 'long' }).format(new Date(2026, 9, 7))}</p>
         <div className="mt-12 space-y-10">
           {sections.map(([h, body]) => (
             <section key={h}><h2 className="title-sm text-fg">{h}</h2><p className="mt-3 text-[17px] leading-relaxed text-fg-2">{body}</p></section>

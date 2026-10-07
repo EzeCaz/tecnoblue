@@ -8,7 +8,7 @@ import { cn } from '@/lib/cn'
 type Variant = 'primary' | 'secondary' | 'inverse' | 'ghost'
 type Size = 'sm' | 'md' | 'lg'
 
-const base = 'relative inline-flex items-center justify-center gap-3 rounded-full font-bold select-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 will-change-transform'
+const base = 'relative inline-flex items-center justify-center gap-3 rounded-full font-bold select-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
 const variants: Record<Variant, string> = {
   primary: 'bg-blue text-white shadow-glow hover:bg-blue-deep',
   secondary: 'bg-surface text-fg ring-1 ring-inset ring-line hover:ring-blue/50 shadow-soft',
@@ -47,6 +47,7 @@ export function ButtonLink({ to, variant = 'primary', size = 'md', className, ic
   const reduce = useReducedMotion()
   const cls = cn('group', base, variants[variant], size === 'lg' && !icon ? 'h-14 px-8 text-[16px]' : sizes[size], className)
   const inner = <>{children}{icon && <Trail dark={variant !== 'primary'} />}</>
-  if (/^https?:/.test(to)) return <motion.a href={to} target="_blank" rel="noreferrer" className={cls} {...(reduce ? {} : press)} {...(props as object)}>{inner}</motion.a>
+  if (/^https?:/.test(to)) return <motion.a href={to} target="_blank" rel="noreferrer" className={cls} {...(reduce ? {} : press)} {...(props as object)}>{inner}<span className="sr-only"> (opens in a new tab)</span></motion.a>
+  if (to.startsWith('#')) return <motion.a href={to} className={cls} {...(reduce ? {} : press)} {...(props as object)}>{inner}</motion.a>
   return <motion.span {...(reduce ? {} : press)} className="inline-flex"><Link to={to} className={cls} {...props}>{inner}</Link></motion.span>
 }
