@@ -26,7 +26,7 @@ export function Solutions() {
                   <img src={s.logo} alt="" className={cn('w-auto max-w-[180px] rounded-lg object-contain dark:bg-white dark:px-2 dark:py-1', s.logoClass)} />
                   <p className="mt-6 text-[13px] font-bold text-accent">{s.tag[lang]}</p>
                   <h2 className={cn('mt-1 text-fg', i === 0 ? 'title' : 'title-sm')}>{s.name}</h2>
-                  <p className="lead mt-3">{s.summary[lang]}</p>
+                  <p className="lead mt-3 text-fg-2">{s.summary[lang]}</p>
                   <span className="mt-6 inline-flex h-11 items-center rounded-full bg-blue px-5 text-[14px] font-bold text-white">{t.solutions.learn}</span>
                 </div>
                 <div aria-hidden="true"><MiniUI id={s.id} /></div>

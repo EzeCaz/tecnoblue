@@ -51,7 +51,7 @@ export function WhyBento() {
   return (
     <section aria-labelledby="why-title" className="bg-surface">
       <div className="wrap py-24 sm:py-32">
-        <Reveal className="max-w-[760px]"><SplitReveal id="why-title" as="h2" text={t.why.title} className="title block text-fg" /><p className="lead mt-4">{t.why.lead}</p></Reveal>
+        <Reveal className="max-w-[760px]"><SplitReveal id="why-title" as="h2" text={t.why.title} className="title block text-fg" /><p className="lead mt-4 text-fg-2">{t.why.lead}</p></Reveal>
         <div className="mt-14 grid gap-5 md:grid-cols-6">
           {/* 1: live list */}
           <Reveal className="md:col-span-3"><SpotlightCard className={tile + ' h-full'}><div className="flex items-center justify-between text-[12px] font-bold text-fg-3"><span>{t.why.items[2].title}</span><span className="flex items-center gap-1.5 text-green"><span className="relative flex h-3 w-3 items-center justify-center"><span className="absolute inset-0 rounded-full bg-green animate-breathe motion-reduce:hidden" /><span className="relative h-2 w-2 rounded-full bg-green" /></span>Live</span></div><LiveList /><p className="mt-5 text-[15px] leading-relaxed text-fg-2">{t.why.items[2].body}</p></SpotlightCard></Reveal>

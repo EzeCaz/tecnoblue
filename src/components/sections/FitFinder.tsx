@@ -30,7 +30,7 @@ export function FitFinder() {
   return (
     <section aria-labelledby="fit-title" className="bg-surface">
       <div className="wrap py-24 sm:py-32">
-        <Reveal className="max-w-[720px]"><SplitReveal id="fit-title" as="h2" text={t.fit.title} className="title block text-fg" /><p className="lead mt-4">{t.fit.lead}</p></Reveal>
+        <Reveal className="max-w-[720px]"><SplitReveal id="fit-title" as="h2" text={t.fit.title} className="title block text-fg" /><p className="lead mt-4 text-fg-2">{t.fit.lead}</p></Reveal>
         <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-16">
           <div>
             <p className="text-[12px] font-bold uppercase tracking-wider text-fg-3">{t.fit.pickLabel}</p>

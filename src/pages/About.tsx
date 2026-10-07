@@ -33,7 +33,7 @@ export function About() {
       </div></section>
       {site.team.length > 0 && (
         <section aria-labelledby="team-title" className="bg-surface"><div className="wrap py-20 lg:py-28">
-          <Reveal className="max-w-[720px]"><h2 id="team-title" className="title text-fg">{t.team.title}</h2><p className="lead mt-4">{t.team.lead}</p></Reveal>
+          <Reveal className="max-w-[720px]"><h2 id="team-title" className="title text-fg">{t.team.title}</h2><p className="lead mt-4 text-fg-2">{t.team.lead}</p></Reveal>
           <div className="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
             {site.team.map((m, i) => (
               <Reveal key={m.name} delay={i * 0.05}><div className="group">

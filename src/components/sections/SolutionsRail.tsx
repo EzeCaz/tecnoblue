@@ -52,7 +52,7 @@ export function SolutionsRail() {
     <section ref={section} aria-labelledby="solutions-title" className="relative overflow-hidden bg-ground">
       <div className="wrap pt-24 lg:pt-20">
         <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div><SplitReveal id="solutions-title" as="h2" text={t.solutions.title} className="title block text-fg" /><p className="lead mt-4 max-w-[52ch]">{t.solutions.lead}</p></div>
+          <div><SplitReveal id="solutions-title" as="h2" text={t.solutions.title} className="title block text-fg" /><p className="lead mt-4 max-w-[52ch] text-fg-2">{t.solutions.lead}</p></div>
           <ButtonLink to="/solutions" variant="secondary" icon>{t.solutions.all}</ButtonLink>
         </Reveal>
         <div className="mt-8 hidden h-1 w-full overflow-hidden rounded-full bg-fg/10 lg:block"><div data-progress className="h-full w-full origin-left bg-blue" style={{ transform: 'scaleX(0)' }} /></div>

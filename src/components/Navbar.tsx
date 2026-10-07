@@ -23,7 +23,7 @@ export function Navbar() {
   const { scrollY } = useScroll()
   const { resolved } = useTheme()
   useMotionValueEvent(scrollY, 'change', (v) => setPast(v > 520))
-  const heroPages = pathname === '/' || pathname === '/about' || pathname === '/solutions' || pathname === '/contact' || pathname.startsWith('/solutions/')
+  const heroPages = pathname !== '/privacy' && pathname !== '/terms'
   const onDark = resolved === 'dark' || (heroPages && !past)
 
   useEffect(() => { setOpen(false) }, [pathname])
@@ -62,8 +62,8 @@ export function Navbar() {
           <ButtonLink to="/contact" size="sm">{t.nav.cta}</ButtonLink>
         </div>
         <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-nav" aria-label={open ? t.nav.close : t.nav.menu} className="relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full md:hidden">
-          <motion.span aria-hidden="true" animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} transition={springs.quick} className={cn('absolute h-[2px] w-5 rounded', onDark ? 'bg-surface' : 'bg-navy')} />
-          <motion.span aria-hidden="true" animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} transition={springs.quick} className={cn('absolute h-[2px] w-5 rounded', onDark ? 'bg-surface' : 'bg-navy')} />
+          <motion.span aria-hidden="true" animate={open ? { rotate: 45, y: 0 } : { rotate: 0, y: -4 }} transition={springs.quick} className={cn('absolute h-[2px] w-[22px] rounded-full', onDark ? 'bg-white' : 'bg-navy')} />
+          <motion.span aria-hidden="true" animate={open ? { rotate: -45, y: 0 } : { rotate: 0, y: 4 }} transition={springs.quick} className={cn('absolute h-[2px] w-[22px] rounded-full', onDark ? 'bg-white' : 'bg-navy')} />
         </button>
       </motion.header>
 

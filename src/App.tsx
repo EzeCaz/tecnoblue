@@ -57,7 +57,7 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean
   static getDerivedStateFromError() { return { failed: true } }
   componentDidCatch(err: unknown) { console.error('[tecno.blue] render error', err) }
   render() {
-    if (this.state.failed) return <div className="wrap py-32 text-center"><h1 className="title text-fg">Something went wrong.</h1><p className="lead mt-4">Reload the page, or write to us if it keeps happening.</p><a href="/" className="mt-8 inline-flex h-12 items-center rounded-full bg-blue px-6 font-bold text-white">Reload</a></div>
+    if (this.state.failed) return <div className="wrap py-32 text-center"><h1 className="title text-fg">Something went wrong.</h1><p className="lead mt-4 text-fg-2">Reload the page, or write to us if it keeps happening.</p><a href="/" className="mt-8 inline-flex h-12 items-center rounded-full bg-blue px-6 font-bold text-white">Reload</a></div>
     return this.props.children
   }
 }

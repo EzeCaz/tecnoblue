@@ -10,12 +10,14 @@ import { ParticleField } from '@/components/fx/ParticleField'
 import { Magnetic } from '@/components/fx/Magnetic'
 import { ButtonLink } from '@/components/ui/Button'
 import { springs, useReducedMotion } from '@/lib/motion'
+import { useMediaQuery } from '@/lib/media'
 
 const HERO_VIDEO = (import.meta.env.VITE_HERO_VIDEO as string | undefined) || ''
 
 export function Hero() {
   const { t } = useLang()
   const reduce = useReducedMotion()
+  const phone = useMediaQuery('(max-width: 767px)')
   const { scrollY } = useScroll()
   const copyY = useTransform(scrollY, [0, 600], [0, reduce ? 0 : 120])
   const copyOpacity = useTransform(scrollY, [0, 500], [1, reduce ? 1 : 0.35])
@@ -50,7 +52,7 @@ export function Hero() {
         <motion.div {...item(0.4)} className="relative mx-auto mt-16 max-w-[1080px]">
           <ContainerScroll>
             <div className="rounded-[30px] bg-white/[0.06] p-2 ring-1 ring-white/10 backdrop-blur-sm">
-              <Suspense fallback={<div className="aspect-[1200/760] w-full rounded-[26px] bg-ink/60" aria-hidden="true" />}><DemoPlayer label={t.hero.demoLabel} /></Suspense>
+              {phone ? <PhoneDemo label={t.hero.demoLabel} still={reduce} /> : <Suspense fallback={<div className="aspect-[1200/760] w-full rounded-[26px] bg-ink/60" aria-hidden="true" />}><DemoPlayer label={t.hero.demoLabel} /></Suspense>}
             </div>
           </ContainerScroll>
           {/* floating chips */}
@@ -65,5 +67,16 @@ export function Hero() {
         </motion.div>
       </div>
     </section>
+  )
+}
+
+/** Phones get the pre-rendered film as a native video (far lighter than running the Remotion composition live). */
+function PhoneDemo({ label, still }: { label: string; still: boolean }) {
+  return (
+    <div role="region" aria-label={label} className="relative overflow-hidden rounded-[26px] bg-ink shadow-float ring-1 ring-white/10">
+      {still
+        ? <img src="/video/field-demo-poster.jpg" alt="" width={720} height={456} className="aspect-[1200/760] w-full object-cover" />
+        : <video src="/video/field-demo-720.mp4" poster="/video/field-demo-poster.jpg" autoPlay muted loop playsInline preload="metadata" className="aspect-[1200/760] w-full object-cover" />}
+    </div>
   )
 }
