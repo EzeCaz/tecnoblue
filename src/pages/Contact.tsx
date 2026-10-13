@@ -10,7 +10,6 @@ import { site } from '@/config/site'
 type Status = 'idle' | 'sending' | 'sent' | 'error'
 type Errors = Partial<Record<'name' | 'email' | 'message', string>>
 
-const ENDPOINT = (import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined) || (import.meta.env.PROD ? '/api/contact' : undefined)
 
 const field = 'mt-2 block h-13 w-full rounded-2xl border border-line bg-ground px-4 text-[16px] text-fg placeholder:text-fg-3 transition-[border-color,box-shadow,background-color] duration-200 focus:border-blue focus:bg-surface focus:shadow-[0_0_0_4px_rgb(9_119_188/0.18)] focus:outline-none'
 const label = 'text-[13px] font-bold text-fg'
@@ -42,12 +41,20 @@ export function Contact({ subject }: { subject?: string } = {}) {
     }
     setStatus('sending')
     try {
-      if (ENDPOINT) {
-        const res = await fetch(ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ ...data, lang, subject }) })
-        if (!res.ok) throw new Error(String(res.status))
-      } else {
+      // Honeypot: bots fill the hidden "website" field. Pretend success, send nothing.
+      if (data.website) { setStatus('sent'); form.reset(); return }
+      if (site.formEndpoint) {
+        const { website: _hp, ...fields } = data
+        void _hp
+        // No Content-Type header: the body goes as text/plain, which Apps Script accepts without a CORS preflight.
+        const res = await fetch(site.formEndpoint, { method: 'POST', body: JSON.stringify({ ...fields, lang, subject: subject ?? '' }) })
+        const json = (await res.json().catch(() => ({}))) as { ok?: boolean }
+        if (!res.ok || !json.ok) throw new Error(String(res.status))
+      } else if (import.meta.env.DEV) {
         await new Promise((r) => setTimeout(r, 700))
-        console.info('[contact] no endpoint configured; simulated send')
+        console.info('[contact] no form endpoint configured; simulated send')
+      } else {
+        throw new Error('Contact form endpoint missing')
       }
       setStatus('sent')
       form.reset()

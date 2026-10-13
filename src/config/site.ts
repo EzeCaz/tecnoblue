@@ -4,6 +4,11 @@
  */
 export const site = {
   legalName: 'Tecno.Blue LLC',
+  /**
+   * Contact form endpoint: a Google Apps Script web app (scripts/contact/Code.gs) running in the
+   * sending Gmail account. It emails each submission to a fixed inbox; the URL can only do that.
+   */
+  formEndpoint: (import.meta.env.VITE_FORM_ENDPOINT as string | undefined) || 'https://script.google.com/macros/s/AKfycbxAN56zIw9nodx3Q924g4QUIyI3AsvDPBtBDPLtnTJL4IuKBaoXsSiPOQfNcifPLWOR/exec',
   /** International format, digits only, e.g. 19545550123 */
   whatsapp: (import.meta.env.VITE_WHATSAPP as string | undefined) || '',
   whatsappGreeting: { en: 'Hello Tecno.Blue, I would like to know more about your solutions.', es: 'Hola Tecno.Blue, me gustaría conocer más sobre sus soluciones.' },
