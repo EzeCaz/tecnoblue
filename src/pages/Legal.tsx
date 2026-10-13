@@ -13,7 +13,7 @@ const privacy = {
     ['Who processes it', 'Our website is hosted by Vercel Inc. and form messages are delivered by email through Google; both act as processors under their own terms. We may share your details with the technology partner whose platform you enquired about, only to answer that enquiry.'],
     ['How long we keep it', 'Enquiries are kept for as long as needed to follow up and for a maximum of [24 months] after our last contact, unless a contract follows.'],
     ['Your rights', 'You may ask us to access, correct or delete your personal data, or to stop contacting you, at any time by writing to [privacy email]. If you are in the EU/EEA, UK or a jurisdiction with equivalent rights, you may also lodge a complaint with your supervisory authority.'],
-    ['Cookies and third parties', 'The site uses no advertising or tracking cookies and no analytics. Your language and appearance preferences are stored in your browser only. Fonts are served from our own domain. The office map is loaded from Google Maps only after you press “Show map”; at that point Google receives your IP address under its own privacy policy.'],
+    ['Cookies and third parties', 'The site uses no advertising or tracking cookies and no analytics. Your language preference is stored in your browser only. Fonts are served from our own domain. The office map is loaded from Google Maps only after you press “Show map”; at that point Google receives your IP address under its own privacy policy.'],
     ['Changes', 'We may update this policy; the date below reflects the latest version.'],
   ],
   es: [
@@ -23,7 +23,7 @@ const privacy = {
     ['Quién los procesa', 'El sitio está alojado en Vercel Inc. y los mensajes del formulario se entregan por correo a través de Google; ambos actúan como encargados bajo sus propios términos. Podemos compartir tus datos con el socio tecnológico cuya plataforma consultaste, únicamente para responder esa consulta.'],
     ['Cuánto tiempo los conservamos', 'Las consultas se conservan el tiempo necesario para dar seguimiento y como máximo [24 meses] desde el último contacto, salvo que se formalice un contrato.'],
     ['Tus derechos', 'Puedes solicitar acceso, corrección o eliminación de tus datos personales, o pedir que dejemos de contactarte, escribiendo a [correo de privacidad]. Si estás en la UE/EEE, el Reino Unido o una jurisdicción con derechos equivalentes, también puedes presentar una reclamación ante tu autoridad de control.'],
-    ['Cookies y terceros', 'El sitio no usa cookies publicitarias ni de seguimiento, ni analítica. Tus preferencias de idioma y apariencia se guardan solo en tu navegador. Las fuentes se sirven desde nuestro propio dominio. El mapa de la oficina se carga desde Google Maps solo después de pulsar “Mostrar mapa”; en ese momento Google recibe tu dirección IP bajo su propia política de privacidad.'],
+    ['Cookies y terceros', 'El sitio no usa cookies publicitarias ni de seguimiento, ni analítica. Tu preferencia de idioma se guarda solo en tu navegador. Las fuentes se sirven desde nuestro propio dominio. El mapa de la oficina se carga desde Google Maps solo después de pulsar “Mostrar mapa”; en ese momento Google recibe tu dirección IP bajo su propia política de privacidad.'],
     ['Cambios', 'Podemos actualizar esta política; la fecha indicada abajo corresponde a la versión más reciente.'],
   ],
 }

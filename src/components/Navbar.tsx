@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useLang } from '@/i18n/LanguageContext'
 import { ButtonLink } from '@/components/ui/Button'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
 import { Logo } from '@/components/ui/Logo'
-import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import { useTheme } from '@/lib/theme'
 import { springs, useReducedMotion } from '@/lib/motion'
 import { cn } from '@/lib/cn'
 
@@ -19,12 +17,7 @@ export function Navbar() {
   const { pathname } = useLocation()
   const reduce = useReducedMotion()
   const [open, setOpen] = useState(false)
-  const [past, setPast] = useState(false)
-  const { scrollY } = useScroll()
-  const { resolved } = useTheme()
-  useMotionValueEvent(scrollY, 'change', (v) => setPast(v > 520))
-  const heroPages = pathname !== '/privacy' && pathname !== '/terms'
-  const onDark = resolved === 'dark' || (heroPages && !past)
+  const onDark = true // the site is dark-only
 
   useEffect(() => { setOpen(false) }, [pathname])
   useEffect(() => {
@@ -57,7 +50,6 @@ export function Navbar() {
           ))}
         </nav>
         <div className="hidden items-center gap-2 md:flex">
-          <span className="hidden lg:inline-flex"><ThemeToggle dark={onDark} /></span>
           <LanguageToggle dark={onDark} />
           <ButtonLink to="/contact" size="sm">{t.nav.cta}</ButtonLink>
         </div>
@@ -86,7 +78,7 @@ export function Navbar() {
                 </motion.div>
               ))}
             </nav>
-            <div className="mt-3 flex items-center justify-between px-2 pb-1"><div className="flex items-center gap-2"><ThemeToggle /><LanguageToggle /></div><ButtonLink to="/contact">{t.nav.cta}</ButtonLink></div>
+            <div className="mt-3 flex items-center justify-between px-2 pb-1"><LanguageToggle /><ButtonLink to="/contact">{t.nav.cta}</ButtonLink></div>
           </motion.div>
         )}
       </AnimatePresence>
